@@ -1,0 +1,83 @@
+
+%--- #1 antecedent variables, #2 consequent variables, #3 antecedent linguistic values
+%--- #4 consequent linguistic values, #5 facts, #6 number of antecendent variables
+%--- #7 number of rules, #8 number of consequent variables
+
+\makeatletter
+\def\mamdanispec#1#2#3#4#5#6#7#8{%
+  \begin{align*}
+  \pgfplotsforeachungrouped \j in {1,...,#7} {%
+    % \multido{\j=1+1}{#7}{
+        \Re_\j &: \text{ Jika }
+        \pgfplotsforeachungrouped \idx in {1,...,#6} {%
+        % \multido{\idx=1+1}{#6}{
+            &&\expandafter \csname #1 \endcsname (\idx) \text{ \expandafter \csname #3 \endcsname (\j,\idx),}
+        }
+        && \text{maka }
+        % \pgfplotsforeachungrouped \i in {1,...,#8} {
+        %\multido{\idx=1+1}{#8}{
+        %     &&\expandafter \csname #2 \endcsname(\idx) \text{ \expandafter \csname #4 \endcsname (\j,\idx)}
+        % }
+        \\
+  }
+  \text{Fakta} &:
+  \pgfplotsforeachungrouped \idx in {1,...,#6}{%
+    % \multido{\idx=1+1}{#6}{
+        &&\csname #1 \endcsname (\idx) \operatorname{=} \csname #5 \endcsname (\idx) \text{,}
+  }
+  \\
+  \hline
+  \text{Konklusi} &:
+  \pgfplotsforeachungrouped \idx in {1,...,#6}{%
+    % \multido{\idx=1+1}{#6}{
+        &&
+  }
+  &&
+%   \pgfplotsforeachungrouped \i in {1,...,#8}{
+%         &&\csname #2 \endcsname(\i) \operatorname{=} \csname #2 \endcsname (\i) _0
+%     }
+    \end{align*}
+}
+\makeatother
+
+\makeatletter
+\long\def\mamdani#1#2#3{%
+  \begin{align*}
+  \pgfplotsforeachungrouped \j in {1,...,#1} {%
+        \Re_\j &: \text{ Jika }
+        \pgfplotsforeachungrouped \idx in {1,...,#2} {%
+            &&\Antevar(\idx) \text{ \Anteling(\j,\idx),}
+        }
+        && \text{maka }
+        \pgfplotsforeachungrouped \idx in {1,...,#3} {
+            &&\Consvar(\idx) \text{ \Consling(\j,\idx)}
+        }
+        \\
+  }
+  \text{Fakta} &:
+  \pgfplotsforeachungrouped \idx in {1,...,#2}{%
+        &&\Antevar(\idx) \operatorname{=} \Fact(\idx) \text{,}
+  }
+  \\
+  \hline
+  \text{Konklusi} &:
+  \pgfplotsforeachungrouped \idx in {1,...,#2}{%
+        &&
+  }
+  &&
+  \pgfplotsforeachungrouped \idx in {1,...,#3}{
+        &&\Consvar(\idx) \operatorname{=} \Consvar(\idx) _0
+    }
+    \end{align*}
+}
+\makeatother
+
+\makeatletter
+\newcommand{\nameuse}[1]{\@nameuse{#1}}
+\makeatother
+
+% \global\newarray\Antevar
+% \global\newarray\Consvar
+% \global\newarray\Anteling
+% \global\newarray\Consling
+% \global\newarray\Fact

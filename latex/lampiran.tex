@@ -1,0 +1,14 @@
+\makeatletter
+\let\svaddcontentsline\addcontentsline
+\renewcommand\addcontentsline[3]{%
+  \ifthenelse{\equal{#1}{lof}}{}%
+  {\ifthenelse{\equal{#1}{lot}}{}{\svaddcontentsline{#1}{#2}{#3}}}}
+\makeatother
+
+\begin{Lampiran}
+\input{L_data.tex}
+% \input{L_Hasil_DK1.tex}
+% \input{L_Hasil_DK2.tex}
+% \input{L_Hasil_Iris.tex}
+% \input{L_Hasil_EM.tex}
+\end{Lampiran}

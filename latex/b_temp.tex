@@ -1,0 +1,122 @@
+\subsubsection{Mekanisme Inferensi Takagi-Sugeno-Kang}
+\noindent Inferensi TSK merupakan inferensi fuzzy yang dilakukan terhadap aturan fuzzy TSK. Pada dasarnya, mekanisme inferensi TSK sama seperti mekanisme inferensi Mamdani. Operator implikasi menggunakan operator Mamdani, dan menggunakan ``atau'' sebagai penghubung antar implikasi. Tetapi, inferensi TSK memiliki kasus khusus berupa nilai linguistik variabel kontrol yang diskrit dan menyerupai pendefinisian himpunan klasik, sebagaimana telah diformulasikan pada pernyataan \ref{TSK kontrol}. Selain itu, metode defuzzifikasi yang digunakan pada SKLF ini hanya metode \emph{center-of-area} karena himpunan fuzzy yang dihasilkan dari inferensi ini merupakan himpunan fuzzy diskrit.
+
+\noindent Misalkan diberikan himpunan fuzzy $A_{1,j},A_{2,j}, \ldots, A_{m,j}$  di $X_j$ dengan $j=1,2,\ldots,n$, $\Vec{b_i} = (b_{i,0},b_{i,1},\ldots, b_{i,n})$ dengan $i=1,2,\ldots,m$, dan $\Vec{x} = (x_1,x_2,\ldots,x_3)$. Asumsikan $\Vec{b_i} \neq \Vec{b_k}$ untuk setiap $i\neq k$. Kemudian diberikan SKLF berikut ini
+\flctsk
+Pandang bagian konsekuensi dari setiap implikasi di atas sebagai ``$y$ adalah $B_i$'' untuk setiap $i==1,2,\ldots,m$ dengan fungsi keanggotaan $\mu_{B_i}$ sama seperti fungsi keanggotaan pada \ref{TSK kontrol}, yaitu
+\[\mu_{B_i} = 
+\begin{dcases}
+1, & \text{jika } y=\Vec{b_i}\cdot\Vec{x}\\
+0, & \text{lainnya}
+\end{dcases}
+\]
+Langkah-langkah untuk mendapatkan nilai $y_0$ sebagai tindakan kontrol dari SKLF ini sama seperti langkah-langkah pada inferensi Mamdani. Perbedaannya terletak pada kasus khusus yang ada di variabel kontrol. Rincian langkah-langkahnya adalah sebagai berikut
+\begin{enumerate}
+    \item Lakukan fuzzifikasi terhadap serangkaian fakta berdasarkan nilai linguistik dari variabel kondisi. Kemudian operasikan hasil fuzzifikasi tersebut dengan operasi konjungsi fuzzy (\emph{t-norm}). Misalkan hasil operasi ini dinyatakan dengan $\alpha_i$ untuk $i=1,2,\ldots m$. Maka diperoleh
+    \[\alpha_i = T\left( \mu_{A_{i,1}}(a_1),\mu_{A_{i,2}}(a_2),\ldots,\mu_{A_{i,n}}(a_n) \right)
+    \text{,} \quad i = 1,2,\ldots,m
+    \]
+    \item Operasikan bagian pendahulu dan bagian konsekuensi pada setiap implikasi menggunakan operator mamdani. Maka diperoleh sebanyak $m$ himpunan fuzzy baru di $Y$, yaitu himpunan fuzzy $B'_1, B'_2, \ldots, B'_m$ dengan fungsi keanggotaan
+    \begin{align*}
+        \mu_{B'_i}(y) &= \min \left\{ \alpha_i, \mu_{B_i}(y) \right\}\text{,} \quad y \in Y \quad i = 1,2,\ldots,m\\
+        &=
+        \begin{dcases}
+        \min \left\{ \alpha_i, 1 \right\} = \alpha_i \text{,} & y = \Vec{b_i}\cdot\Vec{a}\\
+        \min \left\{ \alpha_i, 0 \right\} = 0 \text{,} & y \text{ lainnya}
+        \end{dcases}
+    \end{align*}
+    dengan $\Vec{a} = (1,a_1,a_2,\ldots,a_n)$.
+    \item Selanjutnya, dilakukan operasi \emph{t-conorm} untuk menggabungkan sebanyak $m$ himpunan fuzzy dari setiap implikasi. Maka diperoleh himpunan fuzzy baru di $Y$, yaitu himpunan fuzzy $B$ dengan fungsi keanggotaan
+    \[ \mu_B(y) = S\left(\mu_{B'_1}(y),\mu_{B'_2}(y),\ldots,\mu_{B'_m}(y)\right) \text{,} \quad y \in Y \]
+    Karena untuk setiap $i=1,2,\ldots,m$ $\mu_{B'_i}(y) = \alpha_i$ hanya dipenuhi oleh $y= \Vec{b_i}\cdot\Vec{a}$ dan $\mu_{B'_i}(y) = 0$ untuk $y$ yang lain, maka
+    \begin{align*}
+        \mu_B(y) &= 
+        \begin{dcases}
+        S\left(\alpha_1,0,\ldots,0\right) &= \alpha_1\text{,} && y = \Vec{b_1}\cdot\Vec{a}\\
+        \vdots\\
+        S\left(0,0,\ldots,\alpha_i,\ldots,0,0\right) &= \alpha_i\text{,} && y = \Vec{b_i}\cdot\Vec{a}\\
+        \vdots\\
+        S\left(0,0,\ldots,0,\alpha_m\right) &= \alpha_m\text{,} && y = \Vec{b_m}\cdot\Vec{a}\\
+        0\text{,} & &&y \text{ lainnya}
+        \end{dcases}
+    \end{align*}
+    Dengan demikian, $B$ merupakan himpunan fuzzy diskrit.
+    \item Langkah terakhir, lakukan defuzzifikasi metode \emph{center-of-area} terhadap himpunan fuzzy $B$ untuk mendapatkan nilai dari tindakan kontrol $y_0$, sehingga diperoleh
+    \[ y_0 = \displaystyle \frac{\displaystyle\sum_{y \in Y} \mu_B(y)y}{\displaystyle\sum_{y \in Y} \mu_B(y)} \]
+    Misalkan $y_i = \Vec{b_i}\cdot\Vec{a}$ untuk setiap $i=1,2,\ldots,m$. Maka $\mu_B(y)>0$ hanya berlaku untuk $y \in \{y_1,y_2,\ldots,y_m\}$. Dengan demikian, diperoleh
+    \begin{align*}
+        y_0 &= \displaystyle \frac{\displaystyle\sum_{i=1}^m \mu_B(y_i)y_i}{\displaystyle\sum_{i=1}^m \mu_B(y_i)}\\
+         &= \displaystyle \frac{\displaystyle\sum_{i=1}^m \alpha_i y_i}{\displaystyle\sum_{i=1}^m \alpha_i}
+    \end{align*}
+\end{enumerate}
+
+\begin{contoh}
+Misalkan diberikan sistem gas ideal yang terdiri dari volume ($V$) dengan satuan $liter$, suhu ($T$) dengan satuan $Kelvin$, dan tekanan ($P$) dengan satuan $atm$. Sistem gas ideal ini dapat dipandang sebagai SKLF dengan $V$ dan $T$ sebagai variabel kondisi dan $P$ adalah variabel kontrolnya. Misalkan
+\begin{itemize}
+    \item Variabel kondisi $V$ memiliki tiga nilai linguistik: besar, standar, dan kecil. Fungsi keanggotaan dari tiga nilai linguistik ini didefinisikan pada contoh \ref{contoh inf mamdani}.
+    \item Variabel kondisi $T$ memiliki tiga nilai linguistik: panas, normal, dan dingin dengan fungsi keanggotaan didefinisikan pada contoh \ref{contoh inf mamdani}.
+\end{itemize}
+
+Misalkan SKLF tersebut adalah sebagai berikut
+\begin{align*}
+\Re_1 &: \text{ Jika} && V \text{ besar,} && T \text{ panas,}&&\text{maka}&&P&&= \num{1,181} - \num{0,045}V\\
+ & && && && && && + \num{0,003}T\\
+\Re_2 &: \text{ Jika} && V \text{ kecil,} && T \text{ normal,}&&\text{maka}&&P&&= \num{2,3312} + \num{0,0711}V\\
+ & && && && && && - \num{0,003}T\\
+\Re_3 &: \text{ Jika} && V \text{ standar,} && T \text{ dingin,}&&\text{maka}&&P&&= \num{21,71} - \num{0,05}V\\
+ & && && && && && - \num{0,07}T\\
+\text{Fakta} &: && V = 19\text{,} && T = 293\\
+\hline
+\text{Konklusi} &: && && && && P &&= P_0
+\end{align*}
+
+\noindent Misalkan digunakan operator minimum untuk \emph{t-norm}. Lakukan fuzzifikasi terhadap serangkaian fakta dan operasi \emph{t-norm} bagian pendahulu untuk setiap implikasi, sehingga diperoleh
+\begin{align*}
+    \mu_{besar}(19) &= \num{0,0691}, & \mu_{panas}(293) &= \num{0,0006}, &\text{maka } \alpha_1&= \num{0,0006},\\
+    \mu_{kecil}(19) &= \num{0,0474}, & \mu_{normal}(293) &= \num{0,2671},&\text{maka } \alpha_2&= \num{0,0474},\\
+    \mu_{standar}(19) &= \num{0,9692}, & \mu_{dingin}(293)&= \num{0,0141},&\text{maka } \alpha_3&= \num{0,0141}
+\end{align*}
+Selanjutnya, tentukan nilai $P_1$, $P_2$, dan $P_3$ berdasarkan serangkaian fakta dan variabel kontrol $P$ pada setiap konsekuensi.
+\begin{align*}
+    P_1 &&= \num{1,181} - \num{0,045}(19) + \num{0,003}(293) &&= \num{1,205}\\
+    P_2 &&= \num{2,3312} + \num{0,0711}(19) - \num{0,003}(293) &&= \num{2,8031}\\
+    P_3 &&= \num{21,71} - \num{0,05}(19)  - \num{0,07}(293) &&= \num{0,25}
+\end{align*}
+Dengan demikian, diperoleh tindakan kontrol $P_0$, yaitu
+\begin{align*}
+    P_0 &= \displaystyle \frac{\displaystyle\sum_{i=1}^3 \alpha_i P_i}{\displaystyle\sum_{i=1}^3 \alpha_i}\\
+    &= \displaystyle \frac{\num{0,0006}(\num{1,205})+\num{0,0474}(\num{2,8031}) + \num{0,0141}(\num{0,25})}{\num{0,0006}+\num{0,0474} + \num{0,0141}} \\
+    &= \num{2,20797}
+\end{align*}
+\end{contoh}
+
+\begin{align}
+    t^{(l)}_k &= \displaystyle \frac{\displaystyle \sum_{i=1}^r \alpha^{(l)}_i \mathbf{b}_{i,k}\cdot(\mathbf{\Dot{c}}^{(l)}) }{\displaystyle \sum_{i=1}^r \alpha^{(l)}_i } \nonumber \\
+    \label{nilai t_lk}
+    &= \displaystyle \frac{\displaystyle \sum_{i=1}^r \alpha^{(l)}_i \left( b_{i,k,0} + \displaystyle \sum_{j=1}^n (b_{i,k,j}c^{(l)}_j) \right) }{\displaystyle \sum_{i=1}^r \alpha^{(l)}_i }\\
+    \intertext{dengan $\alpha^{(l)}_i$ seperti pada ekspresi (\ref{alfa i}), yaitu}
+    \label{alfa l i}
+    \alpha^{(l)}_i &= \displaystyle \exp \left[ \displaystyle \frac{1}{2} \displaystyle\sum_{j=1}^n \left( \displaystyle \frac{c^{(l)}_j-m_{i,j}}{s_{i,j}} \right)^2 \right],
+    \quad i=1,2,\ldots,r
+\end{align}
+
+\begin{figure}[ht!]
+    \centering
+    \begin{tikzpicture} [thick,scale=0.89, every node/.style={scale=1}]
+    \small{}
+    \node (awal)   at (-4,0)    {};
+    \kotakw[satu,(0,0)]{Memasukkan sampel pertama ke dalam klaster $Q_1$};
+    \kotakbesar[6cm,8cm,kb1,(4,0)];
+    \kotakw[test,(6,0)]{Menguji kemiripan antara sampel ke-$l$ dengan setiap klaster yang telah ada. Uji kemiripan data masukan menggunakan (\ref{kemiripan masukan}) dan (\ref{kriteria kemiripan masukan}). Uji kemiripan data keluaran menggunakan (\ref{kemiripan keluaran}) dan (\ref{kriteria kemiripan keluaran}).};
+    \kotakw[klsbaru,(8,3)]{Membentuk klaster baru. Ketentuannya sesuai dengan (\ref{klaster baru}).};
+    \kotakw[updkls,(8,-3)]{Menentukan klaster yang paling mirip dengan sampel ke-$l$ menggunakan (\ref{klaster paling mirip}). Perbaharui klaster tersebut berdasarkan (\ref{gamma}), (\ref{m baru IS}), (\ref{omega}), (\ref{s baru IS}), (\ref{h baru}), dan (\ref{ukuran kls baru}).};
+    
+    \singleT[awal,satu,0,above]{Data masukan dan keluaran sebanyak $L$ sampel};
+    \singleT[satu,kb1,0,above]{untuk $l=2,3,\ldots,L$};
+    \singleT[test,klsbaru,0,above]{Jika tidak ada klaster yang mirip dengan sampel ke-$l$};
+    \singleT[test,updkls,0,below]{Jika terdapat klaster yang mirip dengan sampel ke-$l$};
+    
+    \end{tikzpicture}
+    \caption{Diagram alir identifikasi struktur}
+    \label{fig:IS}
+\end{figure}

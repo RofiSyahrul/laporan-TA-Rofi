@@ -1,0 +1,92 @@
+\usepackage[section]{glossaries}%[xindy]
+\renewcommand{\glossaryname}{\vskip -1.2cm{DAFTAR SINGKATAN DAN LAMBANG}}
+\newglossary*{lambang}{}
+\newglossary*{singkatan}{}
+
+\newcommand{\singkatan}[3]{
+    \newglossaryentry{#1}{
+        type = singkatan,
+        name = {#2},
+        description = {#3}}
+}
+\newcommand{\lambang}[3]{
+    \newglossaryentry{#1}{
+        type = lambang,
+        name = {#2},
+        description = {#3}}
+}
+
+\newcommand{\greeklambang}[3]{
+    \newglossaryentry{#1}{
+        type = lambang,
+        name = {#2},
+        description = {#3},
+        sort = }
+}
+
+\newglossarystyle{singkatanstyle}{\setglossarystyle{long3col}%
+  \renewenvironment{theglossary}%
+        {\begin{longtable}{Q{3cm}P{7.37cm}C{2.9cm}} }%
+        {\end{longtable}}%
+  \renewcommand*{\glossaryheader}{%
+    \toprule
+      \multicolumn{1}{c}{SINGKATAN} & \multicolumn{1}{c}{Nama} & Pemakaian pertama kali pada halaman\\%
+      \midrule
+      \endfirsthead %
+      \midrule
+      \multicolumn{1}{c}{SINGKATAN} & \multicolumn{1}{c}{Nama} & Pemakaian pertama kali pada halaman\\%
+      \midrule
+      \endhead %
+      
+      \midrule
+      \endfoot%
+      \bottomrule
+      \endlastfoot
+  }%
+  \renewcommand*{\glsgroupheading}[1]{}%
+  \renewcommand*{\glsgroupskip}{}%
+  \renewcommand*{\glossentry}[2]{%\multicolumn{1}{c}{\glossentryname{##1}}
+      \glossentryname{##1} & \glossentrydesc{##1} &%
+      \multicolumn{1}{c}{##2}\\%
+  }%
+}%
+
+\newglossarystyle{lambangstyle}{\setglossarystyle{long3col}%
+    \renewenvironment{theglossary}%
+        {\begin{longtable}{Q{3cm}P{7.37cm}C{2.9cm}} }%
+        {\end{longtable}}
+    \renewcommand*{\glossaryheader}{%
+        \toprule
+      \multicolumn{1}{c}{LAMBANG} &  \multicolumn{1}{c}{Nama} & Pemakaian pertama kali pada halaman\\%
+      \midrule
+      \endfirsthead %
+      \midrule 
+      \multicolumn{1}{c}{LAMBANG} & \multicolumn{1}{c}{Nama} & Pemakaian pertama kali pada halaman\\%
+      \midrule
+      \endhead %
+      
+      \midrule
+      \endfoot
+      \bottomrule
+      \endlastfoot
+  }%
+  \renewcommand*{\glsgroupheading}[1]{}%
+  \renewcommand*{\glsgroupskip}{}%
+  \renewcommand*{\glossentry}[2]{%\multicolumn{1}{c}{\glossentryname{##1}}
+      \glossentryname{##1} & \glossentrydesc{##1} &%
+      \multicolumn{1}{c}{##2}\\%
+  }%
+}
+\makeglossaries
+\newcommand{\DaftarSingkatanLambang}{%-------------------------
+    \newpage
+    \singlespacing
+    \addcontentsline{toc}{chapter}{DAFTAR SINGKATAN DAN LAMBANG}
+    \phantomsection
+    \centerline{\Large\bfseries DAFTAR SINGKATAN DAN LAMBANG}
+    \begin{center}
+    \printglossary[type=singkatan,style=singkatanstyle,
+    title=\vspace*{-\baselineskip}]
+    \printglossary[type=lambang,style=lambangstyle,title=\vspace*{-\baselineskip}]
+    \end{center}
+}

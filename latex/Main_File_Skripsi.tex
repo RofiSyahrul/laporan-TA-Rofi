@@ -1,0 +1,84 @@
+\immediate\write18{makeindex \jobname.nlo -s nomentbl.ist -o \jobname.nls}
+\immediate\write18{makeglossaries \jobname}
+
+\documentclass{skripsi}
+
+%Jika ingin menambahkan command baru, harap ditambahkan di file 'my_command'
+\input{my_command} % usepackage, newcommand, etc
+\input{my_hypen} % pemenggalan kata
+\input{glossaries_config} %setting daftar singkatan dan lambang
+\input{glossaries} % daftar singkatan & lambang
+\input{listing_config} %setting penulisan pseudo-code
+% \hypsetup
+% \allowdisplaybreaks[1]
+% \makeatletter
+% \pretocmd{\chapter*}{\addtocontents{toc}{\protect\addvspace{1\p@}}}{}{}
+% \makeatother
+
+\begin{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%   BAGIAN I
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\input{my_info} % data disertasi, judul etc
+\HalamanJudul % ada di cls
+%\phantomsection
+\input{my_abstrak}
+%\phantomsection
+\HalamanPersetujuan % ada di cls
+% \phantomsection
+% \input{pedoman_penggunaan_TA}
+\phantomsection
+\input{my_page} % halaman persembahan
+\phantomsection
+\input{kata_pengantar} 
+
+
+
+\newpage
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%   BAGIAN II
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\phantomsection
+\DaftarIsi
+\DaftarLampiran         % jika ada lampiran
+\DaftarGambar            % jika ada gambar
+\DaftarTabel            % jika ada tabel
+\DaftarSingkatanLambang
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%   BAGIAN III ISI
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\MulaiIsiSkripsi % ini harus ditulis sebelum Bab I
+\input{bab1}
+\input{bab2}
+\input{bab3}
+\input{bab4}
+\input{bab5}
+\DaftarPustaka{daftar_pustaka}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%   BAGIAN IV LAMPIRAN 
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%\TulisIndeks % jika menghendaki ada indeks
+%
+%%\appendix
+\input{lampiran}
+
+\end{document}
+

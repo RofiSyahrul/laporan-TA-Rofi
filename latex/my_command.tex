@@ -1,0 +1,730 @@
+\usepackage{colortbl}  %--- untuk membuat tabel berwarna
+\usepackage{listings}  %--- untuk menulis listing program
+\usepackage{xcolor}    %--- memanfaatkan warna LaTeX
+\usepackage{caption}
+\usepackage{color}
+\usepackage{lscape}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{commath}
+\usepackage{chemarr}
+\usepackage{nomencl}
+\usepackage{etoolbox}
+% \usepackage{eufrak}
+% \usepackage{arrayjob}
+% \usepackage{arrayjobx}
+
+\usepackage{hyperref}
+\urlstyle{rm}
+\renewcommand\UrlFont{\rmfamily\itshape}
+% \hypersetup{
+%     pdftitle={Draft Tugas Akhir - Syahrul Rofi - 10115077},
+%     bookmarks=true,
+%     }
+%\usepackage[printwatermark]{xwatermark}
+%\usepackage{draftwatermark} %\usepackage[firstpage]{draftwatermark}
+
+\usepackage{booktabs}  % untuk tabel
+\usepackage{longtable}
+%\usepackage{tabularx}
+\usepackage{tabu}
+%\usepackage{subfigure}
+\usepackage{subcaption}
+\usepackage{multicol}
+\usepackage{multirow}
+%\usepackage{sectsty}
+%\usepackage{lipsum}
+\usepackage{graphicx}
+%\usepackage{latexsym}
+%\usepackage{float}
+\usepackage{array}
+%\usepackage{mathrsfs}%
+%\usepackage{lineno}
+\usepackage{relsize} %modifikasi ukuran operator matematika
+\usepackage{amssymb}
+\usepackage[decimalsymbol=comma]{siunitx} %dapat mengganti simbol desimal dengan koma
+
+\usepackage{tikz}
+\usepackage{mathtools}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.15}
+
+\usepackage{pgffor}
+\usepackage{xparse}
+\usepackage{keyval}
+\usepackage{pgfmath}
+
+\usepackage[toc]{appendix}
+\usepackage{fancyhdr}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\definecolor{abu}{gray}{0.80}  % = hitam 20%
+
+\newcommand{\cca}{\cellcolor{abu}}
+\newcommand{\ccb}{\bfseries}
+
+\newcolumntype{L}[1]{>{\raggedright\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{P}[1]{>{\raggedright\let\newline\\\arraybackslash\hspace{0pt}}p{#1}}
+\newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{Q}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}p{#1}}
+\newcolumntype{R}[1]{>{\raggedleft\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+
+
+\graphicspath{{FolderGambar/}}%----folder tempat gambar-gambar---
+
+\newcommand{\tmatriks}[1]{%
+    \bigl(\begin{smallmatrix}#1\end{smallmatrix}\bigr)}
+
+\newtheoremstyle{teoremaku}% --- style untuk teorema dkk
+    {4ex}
+    {3ex}
+    {\itshape}
+    {}
+    {\bfseries}
+    {}
+    {1em}
+    {}
+
+\newtheoremstyle{contohku}% --- style untuk contoh
+    {5ex}
+    {3ex}
+    {}
+    {}
+    {\bfseries}
+    {}
+    {1em}
+    {}
+
+\theoremstyle{teoremaku}
+\newtheorem{theorem}{Teorema}%[chapter]
+\newtheorem{lemma}{Lema}%[chapter]
+\newtheorem{conjecture}{Dugaan}[chapter]
+\newtheorem{corollary}{Akibat}%[chapter]
+\newtheorem{definition}{Definisi}%[chapter]
+\newtheorem{open problem}{Masalah Terbuka}[chapter]
+\newtheorem{assertion}{Assertion}[chapter]
+\newtheorem{prop}{Proposisi}[chapter]
+\newtheorem{observation}{Observasi}[chapter]
+\newcommand{\ebox}{\ \ $\Box$\vspace{1ex}}
+\newcommand{\pr}{{\textbf{Bukti.}}\hspace{0.3cm}}
+
+\theoremstyle{contohku}
+\newtheorem{contoh}{Contoh}[chapter]
+
+\newcommand{\maks}{\displaystyle\mathrm{maks}}
+\DeclareMathOperator{\tr}{trace}
+\DeclareMathOperator{\rank}{rank}
+\DeclareMathOperator{\round}{round}
+
+\def\ifEqString#1#2{\def\testa{#1}\def\testb{#2}
+    \ifx\testa\testb}
+
+\usetikzlibrary{shapes,shadows,calc}
+\usepgflibrary{arrows}
+\usetikzlibrary{decorations.shapes}
+\usepackage{varwidth}
+
+\tikzset{decorates/.style=
+{decorate,decoration={shape backgrounds,shape=circle,shape size=0.35mm,shape sep=2mm}},%
+decorateb/.style=
+{decorate,decoration={shape backgrounds,shape=circle,shape size=1mm,shape sep=3mm}}
+}
+
+%-----Boxes & circle
+%-----#1 height, #2 width, #3 name of the node, #4 coordinate
+\def\kotakbesar[#1,#2,#3,#4]{%
+  \node[draw, rectangle, minimum height=#1, minimum width=#2, rounded corners=3] (#3) at #4 {}; %
+}
+%-----#1 name of the node, #2 coordinate, #3 label
+\def\kotak[#1,#2]#3;{
+  \node[draw,rectangle,color=black,rounded corners=3,align=center] (#1) at #2 {#3};
+}
+\def\bulat[#1,#2]#3;{
+  \node[draw,circle,color=black,minimum size=0.8cm,inner sep=0pt,align=center] (#1) at #2 {#3};
+}
+\def\kotakw[#1,#2]#3;{
+  \node[draw,rectangle,color=black,rounded corners=3,align=center, inner sep=2pt,minimum size=0.8cm] (#1) at #2 {\begin{varwidth}{16em}#3\end{varwidth}};
+ }
+\def\kotakww[#1,#2]#3;{
+  \node[draw,rectangle,color=black,rounded corners=3,align=center, inner sep=2pt,minimum size=0.8cm] (#1) at #2 {\begin{varwidth}{10em}#3\end{varwidth}};
+ }
+\def\kosong[#1,#2]#3;{
+  \node (#1) at #2 {\begin{varwidth}{11em}#3\end{varwidth}};
+ }%[font=\fontsize{#3}{0}\selectfont]
+%-----#3 & #4 label
+\def\kotaktl[#1,#2]#3#4;{
+  \node[draw,rectangle,color=black,rounded corners=3,align=center] (#1) at #2 {#3\\#4};
+}
+\def\bulattl[#1,#2]#3#4;{
+  \node[draw,circle,color=black,minimum size=0.8cm,inner sep=0pt,align=center] (#1) at #2 {#3\\#4};
+}
+%-----#1 from node, #2 to node, #3 angle of a node, #4 position of a node, #5 node label
+%-----dashed, or other parameters for draw
+\def\singleT[#1,#2,#3,#4]#5;{ 
+  \draw[-triangle 60,color=black!20!black] (#1) -- (#2) node[midway,sloped,#4,rotate=#3,font=\fontsize{8}{0}\selectfont,text width=2.3cm, align=center] {#5};  
+}
+\def\singleTf[#1,#2,#3,#4,#5]#6;{ 
+  \draw[-triangle 60,color=black!20!black] (#1) -- (#2) node[midway,sloped,#4,rotate=#3,font=\fontsize{#5}{0}\selectfont,text width=2.3cm, align=center] {#6};
+}
+%%#6 text width
+\def\singleTfw[#1,#2,#3,#4,#5,#6]#7;{ 
+  \draw[-triangle 60,color=black!20!black] (#1) -- (#2) node[midway,sloped,#4,rotate=#3,font=\fontsize{#5}{0}\selectfont,text width=#6, align=center] {#7};
+}
+\def\doubleT[#1,#2,#3,#4]#5;{ 
+  \draw[triangle 60-triangle 60,color=black!20!black] (#1) -- (#2) node[midway,sloped,#4,rotate=#3,font=\fontsize{8}{0}\selectfont] {#5};  
+}
+\def\titiks[#1,#2];{ 
+  \draw[decorates,fill] (#1) -- (#2);
+}
+\def\titikb[#1,#2];{ 
+  \draw[decorateb,fill] (#1) -- (#2);  
+}
+%---#1 antecedent variable, #2 antecedent's linguistic value, #3 consequent variable, #4 consequent's linguistic value
+%---#5 number of antecedent variables, #6 number of fuzzy rules
+\makeatletter
+
+\newtoggle{onerule} %
+\newtoggle{tworules} %
+\newtoggle{threerules}%
+\newtoggle{oneante}%
+\newtoggle{twoante}%
+
+\def\setboolflc#1#2{%
+\ifEqString{#2}{1}%
+    \global\toggletrue{onerule}%
+    \global\togglefalse{tworules}%
+    \global\togglefalse{threerules}%
+\else \ifEqString{#2}{2}%
+    \global\toggletrue{tworules}%
+    \global\togglefalse{onerule}%
+    \global\togglefalse{threerules}%
+\else \ifEqString{#2}{3}%
+    \global\toggletrue{threerules}%
+    \global\togglefalse{onerule}%
+    \global\togglefalse{tworules}%
+\else %
+    \global\togglefalse{threerules}%
+    \global\togglefalse{onerule}%
+    \global\togglefalse{tworules}%
+\fi %
+
+\ifEqString{#1}{1} %
+    \global\toggletrue{oneante}%
+    \global\togglefalse{twoante}%
+\else \ifEqString{#1}{2}%
+    \global\toggletrue{twoante}%
+    \global\togglefalse{oneante}%
+\else %
+    \global\togglefalse{oneante}%
+    \global\togglefalse{twoante}%
+\fi %
+}%
+%
+
+%---- ZADEH FUZZY RULES
+\NewDocumentCommand \generalFrZadeh {O{x}O{A}O{y}O{B}O{n}O{m}}{
+\setboolflc{#5}{#6}%
+\vspace*{-\baselineskip}
+\iftoggle{onerule}{\iftoggle{oneante}{%
+        \vspace*{-\baselineskip}
+        \begin{alignat*}{4}%
+        \Re &: \text{ Jika } &&#1 \text{ adalah } #2 \text{,} &&\text{maka } &&#3 \text{ adalah } #4
+        \end{alignat*}%
+    }{\iftoggle{twoante}{%
+    \vspace*{-\baselineskip}
+        \begin{align*}%
+            \Re &: \text{ Jika } &&#1_1 \text{ adalah } #2_1 &&\text{ dan } &&#1_2 \text{ adalah } #2_2\text{,}%
+            &&\text{maka } &&#3 \text{ adalah } #4
+        \end{align*}%
+    }{\vspace*{-\baselineskip}
+    \begin{align*}%
+    \Re &: \text{ Jika } &&#1_1 \text{ adalah } #2_1 \text{,} &&\ldots \text{,} &&#1_#5 \text{ adalah } #2_#5,%
+    &&\text{maka } &&#3 \text{ adalah } #4
+    \end{align*}%
+    }%
+    }%
+}{\iftoggle{tworules}{\iftoggle{oneante}{%
+    \vspace*{-\baselineskip}
+        \begin{align*}%
+        \Re_1 &: \text{ Jika } &&#1 \text{ adalah } #2_1 \text{,} &&\text{maka } &&#3 \text{ adalah } #4_1\\%
+        \Re_2 &: \text{ Jika } &&#1 \text{ adalah } #2_2 \text{,} &&\text{maka } &&#3 \text{ adalah } #4_2
+        \end{align*}%
+    }{\iftoggle{twoante}{%
+    \vspace*{-\baselineskip}
+        \begin{align*}%
+        \Re_1 &: \text{ Jika } &&#1_1 \text{ adalah } #2_{1,1} &&\text{dan} &&#1_2 \text{ adalah } #2_{1,2},%
+        &&\text{maka } &&#3 \text{ adalah } #4_1\\%
+        \Re_2 &: \text{ Jika } &&#1_1 \text{ adalah } #2_{2,1} &&\text{dan} &&#1_2 \text{ adalah } #2_{2,2},%
+        &&\text{maka } &&#3 \text{ adalah } #4_2
+        \end{align*}%
+    }{\vspace*{-\baselineskip}
+        \begin{align*}%
+        \Re_1 &: \text{ Jika } &&#1_1 \text{ adalah } #2_{1,1} \text{,} &&\ldots \text{,} &&#1_#5 \text{ adalah } #2_{1,#5} \text{,}
+        &&\text{maka } &&#3 \text{ adalah } #4_1\\%
+        \Re_2 &: \text{ Jika } &&#1_1 \text{ adalah } #2_{2,1} \text{,} &&\ldots \text{,} &&#1_#5 \text{ adalah } #2_{2,#5} \text{,}
+        &&\text{maka } &&#3 \text{ adalah } #4_2
+        \end{align*}%
+    }%
+    }%
+}{\iftoggle{threerules}{\iftoggle{oneante}{%
+        \vspace*{-\baselineskip}
+        \begin{align*}%
+        \Re_1 &: \text{ Jika } &&#1 \text{ adalah } #2_1 \text{,} &&\text{maka } &&#3 \text{ adalah } #4_1\\%
+        \Re_2 &: \text{ Jika } &&#1 \text{ adalah } #2_2 \text{,} &&\text{maka } &&#3 \text{ adalah } #4_2\\%
+        \Re_#6 &: \text{ Jika } &&#1 \text{ adalah } #2_#6 \text{,} &&\text{maka } &&#3 \text{ adalah } #4_#6
+        \end{align*}%
+    }{\iftoggle{twoante}{%
+    \vspace*{-\baselineskip}
+        \begin{align*}%
+        \Re_1 &: \text{ Jika } &&#1_1 \text{ adalah } #2_{1,1} &&\text{dan} &&#1_2 \text{ adalah } #2_{1,2},%
+        &&\text{maka } &&#3 \text{ adalah } #4_1\\%
+        \Re_2 &: \text{ Jika } &&#1_1 \text{ adalah } #2_{2,1} &&\text{dan} &&#1_2 \text{ adalah } #2_{2,2},%
+        &&\text{maka } &&#3 \text{ adalah } #4_2\\%
+        \Re_#6 &: \text{ Jika } &&#1_1 \text{ adalah } #2_{#6,1} &&\text{dan} &&#1_2 \text{ adalah } #2_{#6,2},%
+        &&\text{maka } &&#3 \text{ adalah } #4_#6
+        \end{align*}%
+    }{\vspace*{-\baselineskip}
+        \begin{align*}%
+        \Re_1 &: \text{ Jika } &&#1_1 \text{ adalah } #2_{1,1} \text{,} &&\ldots \text{,} &&#1_#5 \text{ adalah } #2_{1,#5} \text{,}
+        &&\text{maka } &&#3 \text{ adalah } #4_1\\%
+        \Re_2 &: \text{ Jika } &&#1_1 \text{ adalah } #2_{2,1} \text{,} &&\ldots \text{,} &&#1_#5 \text{ adalah } #2_{2,#5} \text{,}
+        &&\text{maka } &&#3 \text{ adalah } #4_2\\%
+        \Re_#6 &: \text{ Jika } &&#1_1 \text{ adalah } #2_{#6,1} \text{,} &&\ldots \text{,} &&#1_#5 \text{ adalah } #2_{#6,#5} \text{,}
+        &&\text{maka } &&#3 \text{ adalah } #4_#6
+        \end{align*}%
+    }%
+    }%
+}{\iftoggle{oneante}{%
+\vspace*{-\baselineskip}
+        \begin{align*}%
+        \Re_1 &: \text{ Jika } &&#1 \text{ adalah } #2_1 \text{,} &&\text{maka } &&#3 \text{ adalah } #4_1\\%
+        \Re_2 &: \text{ Jika } &&#1 \text{ adalah } #2_2 \text{,} &&\text{maka } &&#3 \text{ adalah } #4_2\\%
+        & &&\vdots \\
+        \Re_#6 &: \text{ Jika } &&#1 \text{ adalah } #2_#6 \text{,} &&\text{maka } &&#3 \text{ adalah } #4_#6
+        \end{align*}%
+    }{\iftoggle{twoante}{%
+    \vspace*{-\baselineskip}
+        \begin{align*}%
+        \Re_1 &: \text{ Jika } &&#1_1 \text{ adalah } #2_{1,1} &&\text{dan} &&#1_2 \text{ adalah } #2_{1,2},%
+        &&\text{maka } &&#3 \text{ adalah } #4_1\\%
+        \Re_2 &: \text{ Jika } &&#1_1 \text{ adalah } #2_{2,1} &&\text{dan} &&#1_2 \text{ adalah } #2_{2,2},%
+        &&\text{maka } &&#3 \text{ adalah } #4_2\\%
+        & && &&\vdots \\
+        \Re_#6 &: \text{ Jika } &&#1_1 \text{ adalah } #2_{#6,1} &&\text{dan} &&#1_2 \text{ adalah } #2_{#6,2},%
+        &&\text{maka } &&#3 \text{ adalah } #4_#6
+        \end{align*}%
+    }{\vspace*{-\baselineskip}
+        \begin{align*}%
+        \Re_1 &: \text{ Jika } &&#1_1 \text{ anggota } #2_{1,1} \text{,} &&\ldots \text{,} &&#1_#5 \text{ anggota } #2_{1,#5} \text{,}
+        &&\text{maka } &&#3 \text{ anggota } #4_1\\%
+        \Re_2 &: \text{ Jika } &&#1_1 \text{ anggota } #2_{2,1} \text{,} &&\ldots \text{,} &&#1_#5 \text{ anggota } #2_{2,#5} \text{,}
+        &&\text{maka } &&#3 \text{ anggota } #4_2\\%
+        & && &&\vdots \\
+        \Re_#6 &: \text{ Jika } &&#1_1 \text{ anggota } #2_{#6,1} \text{,} &&\ldots \text{,} &&#1_#5 \text{ anggota } #2_{#6,#5} \text{,}
+        &&\text{maka } &&#3 \text{ anggota } #4_#6
+        \end{align*}%
+    }%
+    }%
+}%
+}%
+}%
+}%
+
+%---TSK FUZZY RULES
+\NewDocumentCommand\generalFrTSK{O{x}O{A}O{y}O{b}O{n}O{m}}{%
+\setboolflc{#5}{#6}%
+\vspace*{-\baselineskip}
+\iftoggle{onerule}{\iftoggle{oneante}{%
+        \vspace*{-\baselineskip}
+        \begin{alignat*}{4}%
+        \Re &: \text{ Jika } &&#1 \text{ adalah } #2 \text{,} &&\text{maka } &&#3 = #4_0 + #4_1#1%
+        \end{alignat*}%
+    }{\iftoggle{twoante}{%
+    \vspace*{-\baselineskip}
+        \begin{align*}%
+            \Re &: \text{ Jika } &&#1_1 \text{ adalah } #2_1 &&\text{ dan } &&#1_2 \text{ adalah } #2_2\text{,}%
+            &&\text{maka } &&#3 = \Vec{#4}\cdot \Vec{#1}%
+        \end{align*}%
+    }{\vspace*{-\baselineskip}
+    \begin{align*}%
+    \Re &: \text{ Jika } &&#1_1 \text{ adalah } #2_1 \text{,} &&\ldots \text{,} &&#1_#5 \text{ adalah } #2_#5,%
+    &&\text{maka } &&#3 = \Vec{#4}\cdot \Vec{#1}%
+    \end{align*}%
+    }%
+    }%
+}{\iftoggle{tworules}{\iftoggle{oneante}{%
+    \vspace*{-\baselineskip}
+        \begin{align*}%
+        \Re_1 &: \text{ Jika } &&#1 \text{ adalah } #2_1 \text{,} &&\text{maka } &&#3_1 = #4_{1,0}+#4_{1,1}#1\\%
+        \Re_2 &: \text{ Jika } &&#1 \text{ adalah } #2_2 \text{,} &&\text{maka } &&#3_2 = #4_{2,0}+#4_{2,1}#1%
+        \end{align*}%
+    }{\iftoggle{twoante}{%
+    \vspace*{-\baselineskip}
+        \begin{align*}%
+        \Re_1 &: \text{ Jika } &&#1_1 \text{ adalah } #2_{1,1} &&\text{dan} &&#1_2 \text{ adalah } #2_{1,2},%
+        &&\text{maka } &&#3_1 = \Vec{#4_1}\cdot \Vec{#1}\\%
+        \Re_2 &: \text{ Jika } &&#1_1 \text{ adalah } #2_{2,1} &&\text{dan} &&#1_2 \text{ adalah } #2_{2,2},%
+        &&\text{maka } &&#3_2 = \Vec{#4_2}\cdot \Vec{#1}%
+        \end{align*}%
+    }{\vspace*{-\baselineskip}
+        \begin{align*}%
+        \Re_1 &: \text{ Jika } &&#1_1 \text{ adalah } #2_{1,1} \text{,} &&\ldots \text{,} &&#1_#5 \text{ adalah } #2_{1,#5} \text{,}
+        &&\text{maka } &&#3_1 = \Vec{#4_1}\cdot \Vec{#1}\\%
+        \Re_2 &: \text{ Jika } &&#1_1 \text{ adalah } #2_{2,1} \text{,} &&\ldots \text{,} &&#1_#5 \text{ adalah } #2_{2,#5} \text{,}
+        &&\text{maka } &&#3_2 = \Vec{#4_2}\cdot \Vec{#1}%
+        \end{align*}%
+    }%
+    }%
+}{\iftoggle{threerules}{\iftoggle{oneante}{%
+        \vspace*{-\baselineskip}
+        \begin{align*}%
+        \Re_1 &: \text{ Jika } &&#1 \text{ adalah } #2_1 \text{,} &&\text{maka } &&#3_1 = #4_{1,0}+#4_{1,1}#1\\%
+        \Re_2 &: \text{ Jika } &&#1 \text{ adalah } #2_2 \text{,} &&\text{maka } &&#3_2 = #4_{2,0}+#4_{2,1}#1\\%
+        \Re_#6 &: \text{ Jika } &&#1 \text{ adalah } #2_#6 \text{,} &&\text{maka } &&#3_#6 = #4_{#6,0}+#4_{#6,1}#1%
+        \end{align*}%
+    }{\iftoggle{twoante}{%
+    \vspace*{-\baselineskip}
+        \begin{align*}%
+        \Re_1 &: \text{ Jika } &&#1_1 \text{ adalah } #2_{1,1} &&\text{dan} &&#1_2 \text{ adalah } #2_{1,2},%
+        &&\text{maka } &&##3_1 = \Vec{#4_1}\cdot \Vec{#1}\\%
+        \Re_2 &: \text{ Jika } &&#1_1 \text{ adalah } #2_{2,1} &&\text{dan} &&#1_2 \text{ adalah } #2_{2,2},%
+        &&\text{maka } &&#3_2 = \Vec{#4_2}\cdot \Vec{#1}\\%
+        \Re_#6 &: \text{ Jika } &&#1_1 \text{ adalah } #2_{#6,1} &&\text{dan} &&#1_2 \text{ adalah } #2_{#6,2},%
+        &&\text{maka } &&#3_#6 = \Vec{#4_#6}\cdot \Vec{#1}%
+        \end{align*}%
+    }{\vspace*{-\baselineskip}
+        \begin{align*}%
+        \Re_1 &: \text{ Jika } &&#1_1 \text{ adalah } #2_{1,1} \text{,} &&\ldots \text{,} &&#1_#5 \text{ adalah } #2_{1,#5} \text{,}
+        &&\text{maka } &&#3_1 = \Vec{#4_1}\cdot \Vec{#1}\\%
+        \Re_2 &: \text{ Jika } &&#1_1 \text{ adalah } #2_{2,1} \text{,} &&\ldots \text{,} &&#1_#5 \text{ adalah } #2_{2,#5} \text{,}
+        &&\text{maka } &&#3_2 = \Vec{#4_2}\cdot \Vec{#1}\\%
+        \Re_#6 &: \text{ Jika } &&#1_1 \text{ adalah } #2_{#6,1} \text{,} &&\ldots \text{,} &&#1_#5 \text{ adalah } #2_{#6,#5} \text{,}
+        &&\text{maka } &&#3_#6 = \Vec{#4_#6}\cdot \Vec{#1}%
+        \end{align*}%
+    }%
+    }%
+}{\iftoggle{oneante}{%
+\vspace*{-\baselineskip}
+        \begin{align*}%
+        \Re_1 &: \text{ Jika } &&#1 \text{ adalah } #2_1 \text{,} &&\text{maka } &&#3_1 = #4_{1,0}+#4_{1,1}#1\\%
+        \Re_2 &: \text{ Jika } &&#1 \text{ adalah } #2_2 \text{,} &&\text{maka } &&#3_2 = #4_{2,0}+#4_{2,1}#1\\%
+        & &&\vdots \\
+        \Re_#6 &: \text{ Jika } &&#1 \text{ adalah } #2_#6 \text{,} &&\text{maka } &&#3_#6 = #4_{#6,0}+#4_{#6,1}#1%
+        \end{align*}%
+    }{\iftoggle{twoante}{%
+    \vspace*{-\baselineskip}
+        \begin{align*}%
+        \Re_1 &: \text{ Jika } &&#1_1 \text{ adalah } #2_{1,1} &&\text{dan} &&#1_2 \text{ adalah } #2_{1,2},%
+        &&\text{maka } &&#3_1 = \Vec{#4_1}\cdot \Vec{#1}\\%
+        \Re_2 &: \text{ Jika } &&#1_1 \text{ adalah } #2_{2,1} &&\text{dan} &&#1_2 \text{ adalah } #2_{2,2},%
+        &&\text{maka } &&#3_2 = \Vec{#4_2}\cdot \Vec{#1}\\%
+        & && &&\vdots \\
+        \Re_#6 &: \text{ Jika } &&#1_1 \text{ adalah } #2_{#6,1} &&\text{dan} &&#1_2 \text{ adalah } #2_{#6,2},%
+        &&\text{maka } &&#3_#6 = \Vec{#4_#6}\cdot \Vec{#1}%
+        \end{align*}%
+    }{\vspace*{-\baselineskip}
+        \begin{align*}%
+        \Re_1 &: \text{ Jika } &&#1_1 \text{ anggota } #2_{1,1} \text{,} &&\ldots \text{,} &&#1_#5 \text{ anggota } #2_{1,#5} \text{,}
+        &&\text{maka } &&#3_1 = \mathbf{#4}_1\cdot \mathbf{\Tilde{#1}}\\%
+        \Re_2 &: \text{ Jika } &&#1_1 \text{ anggota } #2_{2,1} \text{,} &&\ldots \text{,} &&#1_#5 \text{ anggota } #2_{2,#5} \text{,}
+        &&\text{maka } &&#3_2 = \mathbf{#4}_2\cdot \mathbf{\Tilde{#1}}\\%
+        & && &&\vdots \\
+        \Re_#6 &: \text{ Jika } &&#1_1 \text{ anggota } #2_{#6,1} \text{,} &&\ldots \text{,} &&#1_#5 \text{ anggota } #2_{#6,#5} \text{,}
+        &&\text{maka } &&#3_#6 = \mathbf{#4}_#6\cdot \mathbf{\Tilde{#1}}%
+        \end{align*}%
+    }%
+    }%
+}%
+}%
+}%
+}%
+
+%--- MAMDANI FLC
+\NewDocumentCommand\flcmamdani{O{x}O{A}O{y}O{B}O{n}O{m}O{a}}{%
+\setboolflc{#5}{#6}%
+\vspace*{-\baselineskip}
+\iftoggle{onerule}{\iftoggle{oneante}{%
+        \vspace*{-\baselineskip}
+        \begin{alignat*}{4}%
+        \Re &: \text{ Jika } &&#1 \text{ adalah } #2 \text{,} &&\text{maka } &&#3 \text{ adalah } #4 \\%
+        \text{Fakta} &: &&#1 = #7_1 \\
+        \hline
+        \text{Konklusi} &: && && &&#3 = #3_0
+        \end{alignat*}%
+    }{\iftoggle{twoante}{%
+    \vspace*{-\baselineskip}
+        \begin{align*}%
+            \Re &: \text{ Jika } &&#1_1 \text{ adalah } #2_1 &&\text{ dan } &&#1_2 \text{ adalah } #2_2\text{,}%
+            &&\text{maka } &&#3 \text{ adalah } #4 \\%
+            \text{Fakta} &: &&#1_1 = #7_1 &&\text{ dan } &&#1_2 = #7_2 \\
+            \hline
+            \text{Konklusi} &: && && && && &&#3 = #3_0
+        \end{align*}%
+    }{\vspace*{-\baselineskip}
+    \begin{align*}%
+    \Re &: \text{ Jika } &&#1_1 \text{ adalah } #2_1 \text{,} &&\ldots \text{,} &&#1_#5 \text{ adalah } #2_#5,%
+    &&\text{maka } &&#3 \text{ adalah } #4\\%
+    \text{Fakta} &: &&#1_1 = #7_1 \text{,} &&\ldots \text{,} &&#1_#5 = #7_#5 \\
+    \hline
+    \text{Konklusi} &: && && && && &&#3  = #3_0
+    \end{align*}%
+    }%
+    }%
+}{\iftoggle{tworules}{\iftoggle{oneante}{%
+    \vspace*{-\baselineskip}
+        \begin{align*}%
+        \Re_1 &: \text{ Jika } &&#1 \text{ adalah } #2_1 \text{,} &&\text{maka } &&#3 \text{ adalah } #4_1\\%
+        \Re_2 &: \text{ Jika } &&#1 \text{ adalah } #2_2 \text{,} &&\text{maka } &&#3 \text{ adalah } #4_2\\%
+        \text{Fakta} &: &&#1 = #7_1 \\
+        \hline
+        \text{Konklusi} &: && && &&#3  = #3_0
+        \end{align*}%
+    }{\iftoggle{twoante}{%
+    \vspace*{-\baselineskip}
+        \begin{align*}%
+        \Re_1 &: \text{ Jika } &&#1_1 \text{ adalah } #2_{1,1} &&\text{dan} &&#1_2 \text{ adalah } #2_{1,2},%
+        &&\text{maka } &&#3 \text{ adalah } #4_1\\%
+        \Re_2 &: \text{ Jika } &&#1_1 \text{ adalah } #2_{2,1} &&\text{dan} &&#1_2 \text{ adalah } #2_{2,2},%
+        &&\text{maka } &&#3 \text{ adalah } #4_2\\%
+        \text{Fakta} &: &&#1_1 = #7_1 &&\text{ dan } &&#1_2 = #7_2 \\
+        \hline
+        \text{Konklusi} &: && && && && &&#3  = #3_0
+        \end{align*}%
+    }{\vspace*{-\baselineskip}
+        \begin{align*}%
+        \Re_1 &: \text{ Jika } &&#1_1 \text{ adalah } #2_{1,1} \text{,} &&\ldots \text{,} &&#1_#5 \text{ adalah } #2_{1,#5} \text{,}
+        &&\text{maka } &&#3 \text{ adalah } #4_1\\%
+        \Re_2 &: \text{ Jika } &&#1_1 \text{ adalah } #2_{2,1} \text{,} &&\ldots \text{,} &&#1_#5 \text{ adalah } #2_{2,#5} \text{,}
+        &&\text{maka } &&#3 \text{ adalah } #4_2\\%
+        \text{Fakta} &: &&#1_1 = #7_1 \text{,} &&\ldots \text{,} &&#1_#5 = #7_#5 \\
+        \hline
+        \text{Konklusi} &: && && && && &&#3  = #3_0
+        \end{align*}%
+    }%
+    }%
+}{\iftoggle{threerules}{\iftoggle{oneante}{%
+        \vspace*{-\baselineskip}
+        \begin{align*}%
+        \Re_1 &: \text{ Jika } &&#1 \text{ adalah } #2_1 \text{,} &&\text{maka } &&#3 \text{ adalah } #4_1\\%
+        \Re_2 &: \text{ Jika } &&#1 \text{ adalah } #2_2 \text{,} &&\text{maka } &&#3 \text{ adalah } #4_2\\%
+        \Re_#6 &: \text{ Jika } &&#1 \text{ adalah } #2_#6 \text{,} &&\text{maka } &&#3 \text{ adalah } #4_#6\\%
+        \text{Fakta} &: &&#1 = #7_1 \\
+        \hline
+        \text{Konklusi} &: && && &&#3  = #3_0
+        \end{align*}%
+    }{\iftoggle{twoante}{%
+    \vspace*{-\baselineskip}
+        \begin{align*}%
+        \Re_1 &: \text{ Jika } &&#1_1 \text{ adalah } #2_{1,1} &&\text{dan} &&#1_2 \text{ adalah } #2_{1,2},%
+        &&\text{maka } &&#3 \text{ adalah } #4_1\\%
+        \Re_2 &: \text{ Jika } &&#1_1 \text{ adalah } #2_{2,1} &&\text{dan} &&#1_2 \text{ adalah } #2_{2,2},%
+        &&\text{maka } &&#3 \text{ adalah } #4_2\\%
+        \Re_#6 &: \text{ Jika } &&#1_1 \text{ adalah } #2_{#6,1} &&\text{dan} &&#1_2 \text{ adalah } #2_{#6,2},%
+        &&\text{maka } &&#3 \text{ adalah } #4_#6\\%
+        \text{Fakta} &: &&#1_1 = #7_1 &&\text{ dan } &&#1_2 = #7_2 \\
+        \hline
+        \text{Konklusi} &: && && && && &&#3  = #3_0
+        \end{align*}%
+    }{\vspace*{-\baselineskip}
+        \begin{align*}%
+        \Re_1 &: \text{ Jika } &&#1_1 \text{ adalah } #2_{1,1} \text{,} &&\ldots \text{,} &&#1_#5 \text{ adalah } #2_{1,#5} \text{,}
+        &&\text{maka } &&#3 \text{ adalah } #4_1\\%
+        \Re_2 &: \text{ Jika } &&#1_1 \text{ adalah } #2_{2,1} \text{,} &&\ldots \text{,} &&#1_#5 \text{ adalah } #2_{2,#5} \text{,}
+        &&\text{maka } &&#3 \text{ adalah } #4_2\\%
+        \Re_#6 &: \text{ Jika } &&#1_1 \text{ adalah } #2_{#6,1} \text{,} &&\ldots \text{,} &&#1_#5 \text{ adalah } #2_{#6,#5} \text{,}
+        &&\text{maka } &&#3 \text{ adalah } #4_#6\\%
+        \text{Fakta} &: &&#1_1 = #7_1 \text{,} &&\ldots \text{,} &&#1_#5 = #7_#5 \\
+        \hline
+        \text{Konklusi} &: && && && && &&#3 = #3_0
+        \end{align*}%
+    }%
+    }%
+}{\iftoggle{oneante}{%
+\vspace*{-\baselineskip}
+        \begin{align*}%
+        \Re_1 &: \text{ Jika } &&#1 \text{ adalah } #2_1 \text{,} &&\text{maka } &&#3 \text{ adalah } #4_1\\%
+        \Re_2 &: \text{ Jika } &&#1 \text{ adalah } #2_2 \text{,} &&\text{maka } &&#3 \text{ adalah } #4_2\\%
+        & &&\vdots \\
+        \Re_#6 &: \text{ Jika } &&#1 \text{ adalah } #2_#6 \text{,} &&\text{maka } &&#3 \text{ adalah } #4_#6\\%
+        \text{Fakta} &: &&#1 = #7_1 \\
+        \hline
+        \text{Konklusi} &: && && &&#3 = #3_0
+        \end{align*}%
+    }{\iftoggle{twoante}{%
+    \vspace*{-\baselineskip}
+        \begin{align*}%
+        \Re_1 &: \text{ Jika } &&#1_1 \text{ adalah } #2_{1,1} &&\text{dan} &&#1_2 \text{ adalah } #2_{1,2},%
+        &&\text{maka } &&#3 \text{ adalah } #4_1\\%
+        \Re_2 &: \text{ Jika } &&#1_1 \text{ adalah } #2_{2,1} &&\text{dan} &&#1_2 \text{ adalah } #2_{2,2},%
+        &&\text{maka } &&#3 \text{ adalah } #4_2\\%
+        & && &&\vdots \\
+        \Re_#6 &: \text{ Jika } &&#1_1 \text{ adalah } #2_{#6,1} &&\text{dan} &&#1_2 \text{ adalah } #2_{#6,2},%
+        &&\text{maka } &&#3 \text{ adalah } #4_#6\\%
+        \text{Fakta} &: &&#1_1 = #7_1 &&\text{ dan } &&#1_2 = #7_2 \\
+        \hline
+        \text{Konklusi} &: && && && && &&#3 = #3_0
+        \end{align*}%
+    }{\vspace*{-\baselineskip}
+        \begin{align*}%
+        \Re_1 &: \text{ Jika } &&#1_1 \text{ anggota } #2_{1,1} \text{,} &&\ldots \text{,} &&#1_#5 \text{ anggota } #2_{1,#5} \text{,}
+        &&\text{maka } &&#3 \text{ anggota } #4_1\\%
+        \Re_2 &: \text{ Jika } &&#1_1 \text{ anggota } #2_{2,1} \text{,} &&\ldots \text{,} &&#1_#5 \text{ anggota } #2_{2,#5} \text{,}
+        &&\text{maka } &&#3 \text{ anggota } #4_2\\%
+        & && &&\vdots \\
+        \Re_#6 &: \text{ Jika } &&#1_1 \text{ anggota } #2_{#6,1} \text{,} &&\ldots \text{,} &&#1_#5 \text{ anggota } #2_{#6,#5} \text{,}
+        &&\text{maka } &&#3 \text{ anggota } #4_#6\\%
+        \text{Fakta} &: &&#1_1 = #7_1 \text{,} &&\ldots \text{,} &&#1_#5 = #7_#5 \\
+        \hline
+        \text{Konklusi} &: && && && && &&#3 = #3_0
+        \end{align*}%
+    }%
+    }%
+}%
+}%
+}%
+}%
+
+%---TSK FUZZY RULES
+\NewDocumentCommand\flctsk{O{x}O{A}O{y}O{b}O{n}O{m}O{a}}{%
+\setboolflc{#5}{#6}%
+\vspace*{-\baselineskip}
+\iftoggle{onerule}{\iftoggle{oneante}{%
+        \vspace*{-\baselineskip}
+        \begin{alignat*}{4}%
+        \Re &: \text{ Jika } &&#1 \text{ adalah } #2 \text{,} &&\text{maka } &&#3 = #4_0 + #4_1#1 \\%
+        \text{Fakta} &: &&#1 = #7_1 \\
+        \hline
+        \text{Konklusi} &: && && &&#3 = #3_0
+        \end{alignat*}%
+    }{\iftoggle{twoante}{%
+    \vspace*{-\baselineskip}
+        \begin{align*}%
+            \Re &: \text{ Jika } &&#1_1 \text{ adalah } #2_1 &&\text{ dan } &&#1_2 \text{ adalah } #2_2\text{,}%
+            &&\text{maka } &&#3 = \Vec{#4}\cdot \Vec{#1} \\%
+            \text{Fakta} &: &&#1_1 = #7_1 &&\text{ dan } &&#1_2 = #7_2 \\
+            \hline
+            \text{Konklusi} &: && && && && &&#3 = #3_0
+        \end{align*}%
+    }{\vspace*{-\baselineskip}
+    \begin{align*}%
+    \Re &: \text{ Jika } &&#1_1 \text{ adalah } #2_1 \text{,} &&\ldots \text{,} &&#1_#5 \text{ adalah } #2_#5,%
+    &&\text{maka } &&#3 = \Vec{#4}\cdot \Vec{#1}\\%
+    \text{Fakta} &: &&#1_1 = #7_1 \text{,} &&\ldots \text{,} &&#1_#5 = #7_#5 \\
+    \hline
+    \text{Konklusi} &: && && && && &&#3  = #3_0
+    \end{align*}%
+    }%
+    }%
+}{\iftoggle{tworules}{\iftoggle{oneante}{%
+    \vspace*{-\baselineskip}
+        \begin{align*}%
+        \Re_1 &: \text{ Jika } &&#1 \text{ adalah } #2_1 \text{,} &&\text{maka } &&#3_1 = #4_{1,0}+#4_{1,1}#1\\%
+        \Re_2 &: \text{ Jika } &&#1 \text{ adalah } #2_2 \text{,} &&\text{maka } &&#3_2 = #4_{2,0}+#4_{2,1}#1\\%
+        \text{Fakta} &: &&#1 = #7_1 \\
+        \hline
+        \text{Konklusi} &: && && &&#3  = #3_0
+        \end{align*}%
+    }{\iftoggle{twoante}{%
+    \vspace*{-\baselineskip}
+        \begin{align*}%
+        \Re_1 &: \text{ Jika } &&#1_1 \text{ adalah } #2_{1,1} &&\text{dan} &&#1_2 \text{ adalah } #2_{1,2},%
+        &&\text{maka } &&#3_1 = \Vec{#4_1}\cdot \Vec{#1}\\%
+        \Re_2 &: \text{ Jika } &&#1_1 \text{ adalah } #2_{2,1} &&\text{dan} &&#1_2 \text{ adalah } #2_{2,2},%
+        &&\text{maka } &&#3_2 = \Vec{#4_2}\cdot \Vec{#1}\\%
+        \text{Fakta} &: &&#1_1 = #7_1 &&\text{ dan } &&#1_2 = #7_2 \\
+        \hline
+        \text{Konklusi} &: && && && && && #3  = #3_0
+        \end{align*}%
+    }{\vspace*{-\baselineskip}
+        \begin{align*}%
+        \Re_1 &: \text{ Jika } &&#1_1 \text{ adalah } #2_{1,1} \text{,} &&\ldots \text{,} &&#1_#5 \text{ adalah } #2_{1,#5} \text{,}
+        &&\text{maka } &&#3_1 = \Vec{#4_1}\cdot \Vec{#1}\\%
+        \Re_2 &: \text{ Jika } &&#1_1 \text{ adalah } #2_{2,1} \text{,} &&\ldots \text{,} &&#1_#5 \text{ adalah } #2_{2,#5} \text{,}
+        &&\text{maka } &&#3_2 = \Vec{#4_2}\cdot \Vec{#1}\\%
+        \text{Fakta} &: &&#1_1 = #7_1 \text{,} &&\ldots \text{,} &&#1_#5 = #7_#5 \\
+        \hline
+        \text{Konklusi} &: && && && && &&#3  = #3_0
+        \end{align*}%
+    }%
+    }%
+}{\iftoggle{threerules}{\iftoggle{oneante}{%
+        \vspace*{-\baselineskip}
+        \begin{align*}%
+        \Re_1 &: \text{ Jika } &&#1 \text{ adalah } #2_1 \text{,} &&\text{maka } &&#3_1 = #4_{1,0}+#4_{1,1}#1\\%
+        \Re_2 &: \text{ Jika } &&#1 \text{ adalah } #2_2 \text{,} &&\text{maka } &&#3_2 = #4_{2,0}+#4_{2,1}#1\\%
+        \Re_#6 &: \text{ Jika } &&#1 \text{ adalah } #2_#6 \text{,} &&\text{maka } &&#3_#6 = #4_{#6,0}+#4_{#6,1}#1\\%
+        \text{Fakta} &: &&#1 = #7_1 \\
+        \hline
+        \text{Konklusi} &: && && &&#3  = #3_0
+        \end{align*}%
+    }{\iftoggle{twoante}{%
+    \vspace*{-\baselineskip}
+        \begin{align*}%
+        \Re_1 &: \text{ Jika } &&#1_1 \text{ adalah } #2_{1,1} &&\text{dan} &&#1_2 \text{ adalah } #2_{1,2},%
+        &&\text{maka } &&##3_1 = \Vec{#4_1}\cdot \Vec{#1}\\%
+        \Re_2 &: \text{ Jika } &&#1_1 \text{ adalah } #2_{2,1} &&\text{dan} &&#1_2 \text{ adalah } #2_{2,2},%
+        &&\text{maka } &&#3_2 = \Vec{#4_2}\cdot \Vec{#1}\\%
+        \Re_#6 &: \text{ Jika } &&#1_1 \text{ adalah } #2_{#6,1} &&\text{dan} &&#1_2 \text{ adalah } #2_{#6,2},%
+        &&\text{maka } &&#3_#6 = \Vec{#4_#6}\cdot \Vec{#1}\\%
+        \text{Fakta} &: &&#1_1 = #7_1 &&\text{ dan } &&#1_2 = #7_2 \\
+        \hline
+        \text{Konklusi} &: && && && && &&#3  = #3_0
+        \end{align*}%
+    }{\vspace*{-\baselineskip}
+        \begin{align*}%
+        \Re_1 &: \text{ Jika } &&#1_1 \text{ adalah } #2_{1,1} \text{,} &&\ldots \text{,} &&#1_#5 \text{ adalah } #2_{1,#5} \text{,}
+        &&\text{maka } &&#3_1 = \Vec{#4_1}\cdot \Vec{#1}\\%
+        \Re_2 &: \text{ Jika } &&#1_1 \text{ adalah } #2_{2,1} \text{,} &&\ldots \text{,} &&#1_#5 \text{ adalah } #2_{2,#5} \text{,}
+        &&\text{maka } &&#3_2 = \Vec{#4_2}\cdot \Vec{#1}\\%
+        \Re_#6 &: \text{ Jika } &&#1_1 \text{ adalah } #2_{#6,1} \text{,} &&\ldots \text{,} &&#1_#5 \text{ adalah } #2_{#6,#5} \text{,}
+        &&\text{maka } &&#3_#6 = \Vec{#4_#6}\cdot \Vec{#1}\\%
+        \text{Fakta} &: &&#1_1 = #7_1 \text{,} &&\ldots \text{,} &&#1_#5 = #7_#5 \\
+        \hline
+        \text{Konklusi} &: && && && && &&#3 = #3_0
+        \end{align*}%
+    }%
+    }%
+}{\iftoggle{oneante}{%
+\vspace*{-\baselineskip}
+        \begin{align*}%
+        \Re_1 &: \text{ Jika } &&#1 \text{ adalah } #2_1 \text{,} &&\text{maka } &&#3_1 = #4_{1,0}+#4_{1,1}#1\\%
+        \Re_2 &: \text{ Jika } &&#1 \text{ adalah } #2_2 \text{,} &&\text{maka } &&#3_2 = #4_{2,0}+#4_{2,1}#1\\%
+        & &&\vdots \\
+        \Re_#6 &: \text{ Jika } &&#1 \text{ adalah } #2_#6 \text{,} &&\text{maka } &&#3_#6 = #4_{#6,0}+#4_{#6,1}#1\\%
+        \text{Fakta} &: &&#1 = #7_1 \\
+        \hline
+        \text{Konklusi} &: && && &&#3 = #3_0
+        \end{align*}%
+    }{\iftoggle{twoante}{%
+    \vspace*{-\baselineskip}
+        \begin{align*}%
+        \Re_1 &: \text{ Jika } &&#1_1 \text{ adalah } #2_{1,1} &&\text{dan} &&#1_2 \text{ adalah } #2_{1,2},%
+        &&\text{maka } &&#3_1 = \Vec{#4_1}\cdot \Vec{#1}\\%
+        \Re_2 &: \text{ Jika } &&#1_1 \text{ adalah } #2_{2,1} &&\text{dan} &&#1_2 \text{ adalah } #2_{2,2},%
+        &&\text{maka } &&#3_2 = \Vec{#4_2}\cdot \Vec{#1}\\%
+        & && &&\vdots \\
+        \Re_#6 &: \text{ Jika } &&#1_1 \text{ adalah } #2_{#6,1} &&\text{dan} &&#1_2 \text{ adalah } #2_{#6,2},%
+        &&\text{maka } &&#3_#6 = \Vec{#4_#6}\cdot \Vec{#1}\\%
+        \text{Fakta} &: &&#1_1 = #7_1 &&\text{ dan } &&#1_2 = #7_2 \\
+        \hline
+        \text{Konklusi} &: && && && && &&#3 = #3_0
+        \end{align*}%
+    }{\vspace*{-\baselineskip}
+        \begin{align*}%
+        \Re_1 &: \text{ Jika } &&#1_1 \text{ anggota } #2_{1,1} \text{,} &&\ldots \text{,} &&#1_#5 \text{ anggota } #2_{1,#5} \text{,}
+        &&\text{maka } &&#3 = \mathbf{#4}_1\cdot \mathbf{\Tilde{#1}}\\%
+        \Re_2 &: \text{ Jika } &&#1_1 \text{ anggota } #2_{2,1} \text{,} &&\ldots \text{,} &&#1_#5 \text{ anggota } #2_{2,#5} \text{,}
+        &&\text{maka } &&#3 = \mathbf{#4}_2\cdot \mathbf{\Tilde{#1}}\\%
+        & && &&\vdots \\
+        \Re_#6 &: \text{ Jika } &&#1_1 \text{ anggota } #2_{#6,1} \text{,} &&\ldots \text{,} &&#1_#5 \text{ anggota } #2_{#6,#5} \text{,}
+        &&\text{maka } &&#3 = \mathbf{#4}_#6\cdot \mathbf{\Tilde{#1}}\\%
+        \text{Fakta} &: &&#1_1 = #7_1 \text{,} &&\ldots \text{,} &&#1_#5 = #7_#5 \\
+        \hline
+        \text{Konklusi} &: && && && && &&#3 = #3_0
+        \end{align*}%
+    }%
+    }%
+}%
+}%
+}%
+}%
+\makeatother

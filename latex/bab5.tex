@@ -1,0 +1,14 @@
+\vspace{15cm}
+\chapter{Kesimpulan dan Saran} \label{bab konklusi}
+
+\section{Kesimpulan}
+\noindent Pada tugas akhir ini, sebuah program yang dapat mengimplementasikan model jaringan saraf fuzzy (JSF) dengan tiga skema klasifikasi multikelas berhasil dirancang. Program ini dapat membangun model JSF dari empat data dengan tiga skema klasifikasi multikelas. Selain itu, melalui program ini, sebagian besar akurasi model JSF yang diperoleh dari masing-masing data cukup besar.
+
+\noindent Setiap model JSF dari masing-masing data dengan skema klasifikasi multikelas tertentu telah diuji. Hasil uji ini menunjukkan bahwa model JSF dapat digunakan untuk menyelesaikan masalah klasifikasi multikelas dengan berbagai skema. Adapun urutan skema klasifikasi multikelas dari yang paling kuat yang dapat diterapkan untuk membangun model JSF adalah skema satu melawan semua, skema satui melawan satu, dan skema satu melawan orde yang lebih tinggi. Skema klasifikasi dikatakan lebih kuat jika memiliki nilai yang lebih besar pada akurasi dari model JSF yang dihasilkan.
+
+\section{Saran}
+\noindent Program yang telah dirancang oleh penulis masih harus dikembangkan dan diperbaiki. Pengembangan dan perbaikan yang diperlukan di antaranya adalah pada kemampuan program untuk menampilkan data. Program ini belum bisa menampilkan data yang akan diolah, data latih, data uji, semua \emph{learning set}, dan semua data validasi. Supaya pengguna dapat melakukan tahap pra pemrosesan data menjadi lebih mudah, sebaiknya disediakan tombol untuk melihat statistika deskriptif dari data yang akan diolah. Perbaikan program juga diperlukan pada kemampuan program untuk menampilkan hasil prediksi pada data uji dan data validasi. Program ini baru dapat menampilkan akurasi.
+
+\noindent
+
+\noindent Model jaringan saraf fuzzy memiliki nilai neuron pada lapisan keluaran yang belum tentu berada pada selang $[0,1]$. Padahal untuk menyelesaikan masalah klasifikasi multikelas, diperlukan nilai neuron pada lapisan keluaran yang berada pada selang $[0,1]$. Ini bertujuan supaya fungsi keputusan dari masing-masing skema klasifikasi multikelas dapat menginterpretasikan nilai-nilai neuron pada lapisan keluaran menjadi label kelas dengan lebih tepat. Untuk mengatasi hal ini, disarankan untuk mengganti fungsi dari setiap bagian konsekuensi pada aturan fuzzy. Fungsi yang disarankan untuk digunakan adalah fungsi logistik.

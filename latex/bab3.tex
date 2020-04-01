@@ -1,0 +1,245 @@
+\vspace{15cm}
+\chapter{Skema Pembelajaran Mesin} \label{bab skema}
+\noindent Pada bagian ini, pembelajaran mesin atau ML (\emph{machine learning}) dipandang sebagai algoritma yang digunakan untuk membuat prediksi yang akurat berdasarkan informasi yang diberikan. Algoritma ML terdiri dari model dan skema. Model ML yang digunakan dalam tugas akhir ini adalah model jaringan saraf fuzzy (JSF) yang telah dijelaskan pada Bab \ref{bab jsf}, terutama pada Subbab \ref{konst fnn}. Skema ML merupakan alur dan strategi ML yang digunakan untuk membangun model ML.
+
+\section{Definisi dan Istilah dalam Pembelajaran Mesin} \label{istilah ML}
+\noindent Sebelum membahas skema dalam pembelajaran mesin, akan dipaparkan terlebih dahulu definisi dan istilah yang sering digunakan dalam pembelajaran mesin. Hal ini bertujuan supaya pembahasan selanjutnya menjadi lebih efisien. Berikut ini definisi dan istilah terkait ML yang telah diringkas oleh \citeasnoun{mohri} dengan beberapa perubahan seperlunya.
+\begin{itemize}
+    \item \textbf{Observasi}, yaitu suatu objek yang mempunyai beberapa atribut dengan nilai tertentu. Observasi-observasi yang mempunyai atribut yang sama akan membentuk suatu data. Sebagai contoh, misalkan terdapat objek titik di dalam ruang dimensi tiga. Misalkan objek tersebut memiliki atribut-atribut yang berupa koordinat pada sumbu $x$, $y$, dan $z$, serta nomor oktan. Maka satu objek titik ini disebut observasi. Jika terdapat sekumpulan objek titik yang memeliki atribut-atribut yang disebutkan sebelumnya, maka sekumpulan objek titik ini membentuk data titik di dalam ruang dimensi tiga.
+    \item \textbf{Fitur}, yaitu atribut-atribut yang saling bebas atau tidak saling mempengaruhi dari suatu observasi pada data. Fitur sering direpresentasikan sebagai vektor. Pada bab sebelumnya, fitur sering disebut sebagai data masukan. Pada contoh sebelumnya, fitur dari data tersebut adalah koordinat pada sumbu $x$, $y$, dan $z$.
+    \item \textbf{Label}, yaitu atribut pada suatu observasi pada data yang nilainya bergantung kepada fitur. Label dapat berupa bilangan real atau kategori. Pada masalah klasifikasi, label berupa kategori. Di dalam bab sebelumnya, label sering disebut sebagai data keluaran. Pada contoh sebelumnya, label dari data tersebut adalah nomor oktan karena nomor oktan sangat bergantung kepada nilai dari fitur $x$, $y$, dan $z$.
+    \item \textbf{Hiperparameter}, yaitu parameter bebas yang tidak dihasilkan dari model ML, tetapi digunakan sebagai \emph{input} untuk membangun model ML. Berdasarkan penjelasan pada Subbab \ref{konst fnn}, hiperparameter pada model JSF adalah nilai dari $\rho$, $\tau$, $s_0$, dan $\eta$. Tiga nilai pertama digunakan pada fase identifikasi struktur. Nilai $\eta$ digunakan pada fase identifikasi parameter.
+    \item \textbf{Data latih}, yaitu kumpulan observasi pada data yang digunakan untuk menghasilkan suatu model ML. Pada contoh sebelumnya (klasifikasi nomor oktan), setiap observasi pada data latih harus mempunyai nomor oktan. Algoritma ML akan mempelajari setiap observasi pada data latih ini sedemikian sehingga dapat menghasilkan model ML yang keluarannya dapat mendekati atau bahkan menyamai nomor oktan untuk setiap observasi yang bersesuaian. Data latih juga dibagi menjadi dua bagian, yaitu:
+    \begin{itemize}
+        \item \textbf{\emph{Learning set}}, yaitu kumpulan observasi pada data latih yang digunakan untuk menghasilkan suatu model ML berdasarkan hiperparameter dengan nilai-nilai tertentu.
+        \item \textbf{Data validasi}, yaitu kumpulan observasi pada data latih yang digunakan untuk mengevaluasi performa model ML yang dihasilkan berdasarkan hiperparameter dengan nilai-nilai tertentu.
+    \end{itemize}
+    \item \textbf{Data uji}, yaitu kumpulan observasi pada data yang bukan bagian dari data latih dan digunakan untuk menguji performa dari model ML yang dihasilkan oleh data latih. Pada contoh klasifikasi nilai oktan, model ML akan memprediksi nomor oktan untuk setiap sampel pada data latih. Kemudian hasil prediksi ini dibandingkan dengan nomor oktan yang sebenarnya. Dengan demikian, label pada data uji hanya digunakan untuk mengevaluasi model ML yang dihasilkan.
+    \item \textbf{\emph{Loss function}}, yaitu suatu fungsi yang mengukur perbedaan antara label yang dihasilkan oleh model ML dan label yang terdapat pada data. Pada model JSF dalam tugas akhir ini, \emph{loss function}-nya berupa MSE yang didefinisikan pada (\ref{loss function}).
+    \item \textbf{Himpunan hipotesis}, yaitu himpunan fungsi yang memetakan fitur-fitur pada data terhadap label. Pada model JSF, fungsi termasuk ke dalam himpunan hipotesis adalah serangkaian proses \emph{feedforward} pada JSF atau serangkaian proses pada Sistem Kontrol Logika Fuzzy (SKLF).
+    \item \textbf{Parameter}, yaitu nilai-nilai yang terlibat secara langsung pada suatu fungsi yang berada di dalam himpunan hipotesis. Parameter dengan nilai-nilai tertentu dapat meminimalkan \emph{loss function}. Parameter juga dapat merepresentasikan suatu model ML yang dihasilkan. Berdasarkan pembahasan pada Subbab \ref{konst fnn}, parameter-parameter dalam model JSF adalah matriks $\mathbf{M}$, matriks $\mathbf{S}$, dan kumpulan matriks $\mathbf{B}_i, i=1,2,\ldots,r$.
+\end{itemize}
+
+\noindent Sebelum mengeksekusi model JSF, data yang akan digunakan harus melalui tahap pra pemrosesan terlebih dahulu. Hal ini dikarenakan setiap data belum tentu mempunyai entri nilai yang cocok untuk model JSF. Sebagai contoh, jika suatu entri pada data mempunyai nilai yang sangat besar, maka dapat menghasilkan nilai yang takhingga ketika memasukkannya ke dalam fungsi Gauss. Hal-hal yang perlu dilakukan pada tahap pra pemrosesan data akan dijelaskan pada Subbab \ref{preproccessing}. Selain itu, model JSF memerlukan nilai tertentu dari hiperparameter. Nilai yang berbeda pada hiperparameter belum tentu menghasilkan model JSF dengan parameter yang sama. Oleh karena itu, diperlukan skema untuk memilih nilai tertentu dari hiperparameter ini. Skema tersebut akan dijelaskan pada Subbab \ref{pemilihan model}.
+
+\noindent Pada masalah klasifikasi multikelas, label berupa kategori. Sedangkan, model JSF hanya dapat memproses bilangan real. Oleh karena itu, diperlukan metode untuk mengonversi label ke dalam bilangan real. Setiap metode yang digunakan akan menghasilkan struktur JSF yang berbeda-beda. Akibatnya, setiap metode harus menggunakan skema klasifikasi yang berbeda-berbeda. Skema klasifikasi ini akan dipaparkan pada Subbab \ref{skema klasifikasi}.
+
+\section{Pra Pemrosesan Data} \label{preproccessing}
+\noindent Pra pemrosesan data memiliki dampak yang signifikan dalam generalisasi performa dari algoritma SML termasuk algoritma untuk menyelesaikan masalah klasifikasi multikelas \cite{kotsiantis,alexandropoulos}. \citeasnoun{kotsiantis} dan \citeasnoun{alexandropoulos} telah membahas deteksi pencilan, pengurangan gangguan pada data, penanganan entri data dengan nilai yang kosong, pemilihan fitur, dan ekstraksi fitur sebagai proses-proses yang dilakukan pada tahap pra pemrosesan data. \citeasnoun{kedarpotdar} secara khusus telah membahas perbandingan antara metode-metode pengkodean fitur yang bersifat kategori. Pemisahan data latih dan data uji dengan metode semi acak telah dibahas oleh \citeasnoun{liu}. Sementara itu, khusus untuk model JSF, \citeasnoun{yeh} telah menyarankan untuk mengurutkan data latih dengan ketentuan tertentu sebelum memasuki fase identifikasi struktur.
+
+\noindent Pada tugas akhir ini, teknik pra pemrosesan data yang akan dibahas hanya meliputi pengkodean fitur yang bersifat kategori, pemisahan data latih dan data uji, normalisasi fitur, ekstraksi fitur, dan pengurutan observasi pada data latih. Hal ini dikarenakan hanya teknik-teknik pra pemrosesan data tersebut yang akan diterapkan terhadap data yang diuji. Pada praktiknya, sebagian besar teknik pra pemrosesan ini dibantu oleh fungsi-fungsi yang disediakan di dalam \emph{package scikit-learn} python. Hanya algoritma pengurutan sampel pada data latih yang dirancang sendiri oleh penulis.
+
+\subsection{Pengkodean Fitur yang Bersifat Kategori} \label{pengkodean}
+\noindent Model JSF hanya dapat mengolah observasi-observasi pada data yang nilai fiturnya berupa bilangan real. Oleh karena itu, jika ada fitur yang nilai-nilainya berupa kategori, maka harus dikonversi terlebih dahulu ke dalam bilangan real. Konversi kategori menjadi bilangan real ini disebut dengan pengkodean. Terdapat barbagai metode pengkodean, di antaranya adalah \emph{one hot encoding}, \emph{ordinal encoding}, \emph{sum encoding}, \emph{helmert encoding}, dll \cite{kedarpotdar}. Pada tugas akhir ini, akan digunakan metode \emph{one hot encoding}, karena metode ini sangat mudah untuk diterapkan terhadap data yang akan diuji.
+
+\noindent Metode \emph{one hot encoding} merupakan metode yang paling sering digunakan dalam pengkodean \cite{kedarpotdar}. Secara intuisi, metode pengkodean ini sangat mudah untuk dipahami. Metode \emph{one hot encoding} mengonversi suatu fitur kategori menjadi vektor berdimensi tertentu dengan entri-entrinya berupa bilangan biner $0$ atau $1$. Misalkan pada suatu fitur terdapat $d$ kategori yang berbeda. Dengan metode \emph{one hot encoding}, fitur ini dikonversi menjadi vektor bilangan biner dengan dimensi $d$. Misalkan suatu observasi pada fitur ini memiliki nilai `kategori ke-$k$'. Maka setelah dilakukan pengkodean, fitur untuk sampel tersebut akan menjadi vektor berdimensi $d$ dengan nilai $1$ untuk entri ke-$k$ dan nilai $0$ untuk entri vektor lainnya.
+
+\noindent Pada tugas akhir ini, terdapat catatan khusus untuk fitur yang hanya memiliki dua kategori berbeda, yakni fitur ini tidak akan dikonversi menjadi vektor berdimensi 2. Untuk fitur yang seperti ini, salah satu kategorinya akan dikonversi menjadi $0$ dan kategori lain dikonversi menjadi $1$. Hal ini dilakukan karena akan ada dua vektor yang saling bergantung secara linier jika tetap dikonversi menjadi vektor dua dimensi. Fitur yang saling bergantung ini akan menggagalkan asumsi yang telah disebutkan pada Bab \ref{bab satu}.
+
+\noindent Untuk menerapkan metode \emph{one hot encoding} pada seluruh observasi, penulis menggunakan fasilitas `\emph{LabelEncoder()}' dan `\emph{OneHotEncoder()}'. Dua fasilitas ini telah disediakan oleh \emph{package scikit-learn} di dalam python. Fasilitas `\emph{LabelEncoder()}' digunakan untuk mengonversi kategori yang mungkin ber-\emph{type string} menjadi numerik. Fasilitas  `\emph{OneHotEncoder()}' digunakan untuk menerapkan metode \emph{one hot encoding}.
+
+\subsection{Pemisahan Data Latih dan Data Uji}
+\noindent Pada tugas akhir ini, setiap observasi-observasi pada data akan dipisahkan terlebih dahulu sebelum dijadikan sebagai objek pengujian model JSF. Observasi-observasi tersebut dipisahkan ke dalam dua kelompok, yaitu kelompok data latih dan kelompok data uji. Pada proses pengujian, perbandingan banyaknya observasi antara data latih dan data uji biasanya adalah 7:3 \cite{liu}. Pada tugas akhir ini, akan digunakan perbandingan 8:2. Observasi-observasi dipisahkan sedemikian sehingga banyaknya label yang berbeda pada data latih sama dengan banyaknya label yang berbeda pada data uji. Dengan kata lain, tidak ada satu pun kategori label yang tidak termuat di dalam data latih dan data uji.
+
+\noindent Proses pemisahan data ini akan menggunakan metode deterministik, yakni observasi-observasi yang ada di dalam data latih pada suatu proses pemisahan data sama dengan observasi-observasi data latih pada proses pemisahan data yang dilakukan di waktu yang berbeda. Dengan kata lain, hasil dari pemisahan data tidak akan berbeda meskipun dilakukan secara berulang. Untuk memenuhi ketentuan-ketentuan yang disebutkan di atas, penulis memanfaatkan fasilitas `\emph{train\_test\_split}' yang tersedia di dalam \emph{package scikit-learn} python dengan menetapkan nilai \emph{RandomState} sebagai suatu bilangan bulat positif yang tetap.
+
+\subsection{Penskalaan Nilai untuk Setiap Fitur}
+\noindent Fitur-fitur yang berupa bilangan real belum tentu memiliki satuan yang sama. Sebagai contoh, pada data gas ideal terdapat fitur suhu dan volume. Satuan dari dua fitur ini jelas berbeda. Meskipun terdapat data yang satuan dari setiap fiturnya sama, tetapi tidak akan menjamin bahwa nilai-nilai pada setiap fitur akan cocok dengan fungsi pada himpunan hipotesis. Contohnya, data klasifikasi oktan yang pernah dibahas di awal bab ini. Fitur-fitur pada data ini memiliki satuan yang sama, yaitu satuan pada besaran posisi, seperti sentimeter. Tetapi, jika nilai pada fitur-fitur ini terlalu besar atau terlalu kecil, maka dapat menghasilkan nilai takhingga ketika dimasukkan ke dalam fungsi yang ada di dalam himpunan hipotesis. Himpunan hipotesis untuk model JSF memuat suatu fungsi yang di dalamnya terdapat fungsi Gauss. Ketika nilai yang dimasukkan ke dalam fungsi Gauss sangat besar, seperti 3.000, maka kemungkinan besar hasil evaluasi fungsi Gauss terhadap nilai tersebut akan menuju takhingga. Dalam komputasi, nilai yang menuju takhingga tidak akan dianggap sebagai suatu bilangan atau \gls{nan} (\emph{Not a Number}). Jika proses pembangunan model JSF dilanjutkan dan masih memuat nilai NaN, maka pembangunan model JSF akan gagal.
+
+\noindent Untuk mengatasi dua hal yang disebutkan di atas, maka dibutuhkan proses penskalaan ke bawah (\emph{down scaling}) untuk setiap fitur pada data. Proses penskalaan ini disebut disebut dengan normalisasi fitur. Normalisasi fitur akan membuat nilai-nilai pada fitur bertransformasi menjadi nilai yang dapat diterima oleh berbagai jenis fungsi terutama jenis fungsi eksponensial. Terdapat dua jenis normalisasi fitur yang sering digunakan dalam pra pemrosesan data \cite{kotsiantis}. Dua jenis ini adalah sebagai berikut.
+\begin{itemize}
+    \item Normalisasi minimal-maksimal. Normalisasi fitur ini menggunakan nilai minimal dan maksimal dari setiap fitur pada data latih sebagai acuan transformasi data. Normalisasi ini akan mengakibatkan nilai pada setiap fitur berada di dalam selang yang sama, misalkan selang $[a,b]$. Dengan demikian, penulisan normalisasi minimal-maksimal secara matematis adalah
+    \begin{align} \label{minmax scaling}
+        {(x^{(l)}_j)}^{\text{(baru)}} = \displaystyle \frac{{(x^{(l)}_j)}^{\text{(lama)}} - \underset{(l')}{\min } {(x^{(l')}_j)}^{\text{(lama)}} } {\underset{(l')}{\maks } {(x^{(l')}_j)}^{\text{(lama)}}-\underset{(l')}{\min } {(x^{(l')}_j)}^{\text{(lama)}} } (b-a) + a
+    \end{align}
+    dengan ${(x^{(l)}_j)}^{\text{(lama)}}$ dan ${(x^{(l)}_j)}^{\text{(baru)}}$ berturut-turut menyatakan nilai lama dan nilai baru dari fitur ke-$j$ pada observasi ke-$l$ dari data latih. Sebagian besar ilmuwan data dan peneliti yang menggunakan normalisasi minimal-maksimal sering mentransformasi fitur-fitur pada data latih menjadi bilangan real pada selang $[0,1]$.
+    \item Normalisasi standar. Normalisasi fitur ini menggunakan rata-rata dan simpangan baku dari setiap fitur pada data latih sebagai acuan transformasi data. Normalisasi standar bertujuan untuk menyamakan rata-rata dan simpangan baku dari semua fitur yang ada. Rata-rata untuk setiap fitur bernilai 0 dan simpangan bakunya bernilai 1. Dengan demikian, penulisan normalisasi standar secara matematis adalah sebagai berikut.
+    \begin{align} \label{standard scaling}
+        {(x^{(l)}_j)}^{\text{(baru)}} = \displaystyle \frac{{(x^{(l)}_j)}^{\text{(lama)}} - \Bar{x}^{\text{(lama)}}_j} { s^{\text{(lama)}}_{x_j} }
+    \end{align}
+\end{itemize}
+Perlu diperhatikan bahwa nilai minimal dan maksimal pada Persamaan (\ref{minmax scaling}) untuk setiap fitur ke-$j$ hanya berdasarkan pada data latih. Begitu juga dengan rata-rata dan simpangan baku pada (\ref{standard scaling}). Normalisasi fitur pada data uji berdasarkan nilai-nilai yang digunakan pada normalisasi fitur data latih. Selain itu, dua jenis normalisasi ini tidak dapat digunakan beriringan. Hal ini dikarenakan tujuan dari dua jenis normalisasi ini sangat berbeda.
+
+\subsection{Analisis Komponen Utama}
+\noindent Berdasarkan penjelasan pada Bab \ref{bab satu}, salah satu tantangan utama di era revolusi industri 4.0 adalah peningkatan kompleksitas data. Peningkatan kompleksitas ini termasuk peningkatan banyaknya fitur pada data yang disebut dengan dimensi dari data. Supaya proses membangun model JSF berjalan dengan efektif meskipun data memiliki dimensi yang sangat besar, maka diperlukan proses ekstraksi fitur. Salah satu metode untuk mengekstrak fitur adalah analisis komponen utama atau \gls{pca} (principal component analysis). PCA bekerja dengan cara memproyeksi setiap observasi terhadap beberapa vektor. PCA bertujuan untuk mengurangi dimensi data \cite{rogers}. Setiap vektor hasil proyeksi dari PCA berupa kombinasi linier dari fitur-fitur pada data asal.
+
+\noindent Misalkan suatu data terdiri dari $L$ observasi, yaitu $\mathbf{x}^{(1)},\mathbf{x}^{(2)},\ldots,\mathbf{x}^{(L)}$. Setiap observasi ke-$l$ memiliki $n$ fitur, yaitu $\mathbf{x}^{(l)} = (x^{(l)}_1, x^{(l)}_2, \ldots, x^{(l)}_n)$. Maka PCA akan memproyeksi setiap $\mathbf{x}^{(l)}$ menjadi suatu komponen utama $z^{(l)}_j$ pada observasi ke-$l$, yaitu
+\[ z^{(l)}_j = \mathbf{w}_j \cdot \mathbf{x}^{(l)}\]
+dengan vektor $\mathbf{w}_j$ merupakan vektor yang dinormalkan dan berupa vektor eigen dari matriks kovariansi data tersebut. Nilai eigen yang bersesuaian dengan $\mathbf{w}_j$ menjadi variansi dari komponen utama $z^{(l)}_j$. Matriks kovariansi tidak hanya memiliki satu pasang nilai dan vektor eigen. Vektor eigen yang dipilih pertama untuk memproyeksikan setiap observasi adalah vektor yang nilai eigennya paling besar. Vektor eigen ini, sebut saja vektor $\mathbf{w}_1$, akan menghasilkan komponen utama pertama pada observasi ke-$l$, yaitu $z^{(l)}_1 = \mathbf{x}^{(l)}\cdot \mathbf{w}_1$. Selanjutnya, komponen utama kedua merupakan hasil proyeksi dari vektor eigen dengan nilai eigen terbesar kedua, dan seterusnya.  Dengan demikian, komponen utama $z_1$ memiliki variansi terbesar dan komponen terakhir ($z_n$) memiliki variansi terkecil.
+
+\noindent Misalkan suatu data memiliki $n$ fitur. Banyaknya fitur ini dapat dipandang sebagai dimensi dari data. Data yang berdimensi $n$ ini akan diproyeksi terhadap dimensi $q<n$ dengan menggunakan PCA. Maka PCA telah berperan dalam proses pengurangan dimensi pada data tersebut. Konsekuensinya, total variansi pada hasil proyeksi tidak terserap sepenuhnya dari data asli. Pengurangan dimensi data ini akan sangat berguna ketika data digambarkan pada grafik dua dimensi. Jika diperlukan normalisasi data dan fitur-fitur pada data akan diekstrak menggunakan PCA, maka normalisasi yang harus dilakukan adalah normalisasi standar \cite{rogers}.
+
+\subsection{Pengurutan Observasi pada Data Latih}
+\noindent Pada fase identifikasi struktur di dalam proses pembangunan model JSF, urutan observasi dari data latih sangat berpengaruh \cite{yeh}. Metode pengurutan observasi yang digunakan oleh \citeasnoun{yeh} adalah metode heuristik. Nilai maksimal dari semua fitur pada observasi pertama harus lebih besar dari nilai maksimal semua fitur pada observasi-observasi yang lain. Begitu juga dengan nilai maksimal dari observasi kedua, harus lebih besar dari nilai maksimal semua fitur pada observasi-observasi setelahnya. Dengan demikian, observasi-observasi pada data latih diurutkan berdasarkan nilai maksimal dari fitur-fiturnya. Jika terdapat nilai fitur maksimal yang sama pada dua observasi atau lebih, maka pengurutan observasi-observasi ini berdasarkan nilai terbesar kedua dari fitur-fiturnya, dan seterusnya. Contoh \ref{ordering data train} mendeskripsikan proses pengurutan observasi pada data latih dengan rinci. 
+
+\begin{contoh}[Contoh pengurutan observasi pada data latih] \label{ordering data train}
+\noindent Misalkan diberikan data latih pada \ref{tab:contoh data latih}. Data latih ini akan digunakan untuk membangun suatu model JSF.
+\begin{table}[h!]
+    \centering 
+    \caption{Contoh data latih yang belum diurutkan}
+    \label{tab:contoh data latih}
+    \scalebox{.65}{
+    \begin{tabular}{crrrl}
+    \toprule
+    \multirow{2}{*}{\textbf{Indeks}} & \multicolumn{3}{c}{\textbf{Fitur}} & \multicolumn{1}{c}{\textbf{Label}}\\
+    \cmidrule(lr){2-4} \cmidrule(l){5-5}
+    & \multicolumn{1}{c}{$x$} & \multicolumn{1}{c}{$y$} & \multicolumn{1}{c}{$z$} & \multicolumn{1}{c}{Oktan}\\
+    \cmidrule(r){1-1}\cmidrule(lr){2-4}\cmidrule(l){5-5}
+    \textbf{1} & 1 & 2 & 1 & Oktan I\\
+    \textbf{2} & 2 & -3 & 4 & Oktan IV\\
+    \textbf{3} & 4 & 2 & -1 & Oktan V\\
+    \textbf{4} & 1 & -1 & 1 & Oktan IV\\
+    \textbf{5} & -2 & 3 & -3 & Oktan VI\\
+    \textbf{6} & 1 & 3 & 2 & Oktan I\\
+    \textbf{7} & -4 & 2 & -1 & Oktan VI\\
+    \textbf{8} & 1 & 3 & -4 & Oktan V\\
+    \bottomrule
+    \end{tabular}
+    }
+\end{table}
+
+\noindent Sebelum mengurutkan data latih tersebut, urutkan terlebih dahulu nilai terbesar sampai nilai terkecil dari fitur-fitur pada setiap observasinya. Hasil dari pengurutan fitur untuk setiap observasi ini diberikan pada \ref{tab:ordering features}. Nilai fitur terbesar sampai terkecil berturut-turut dinyatakan pada kolom ``Maks 1'', ``Maks 2'', dan ``Maks 3''.
+\begin{table}[ht!]
+    \centering 
+    \caption{Hasil pengurutan fitur untuk masing-masing observasi}
+    \label{tab:ordering features}
+    \resizebox{8cm}{!}{
+    \begin{tabular}{c rrr rrr l}
+    \toprule
+    \multirow{2}{*}{\textbf{Indeks}} & \multicolumn{3}{c}{\textbf{Fitur}} & \multicolumn{3}{c}{\textbf{Pengurutan fitur}} & \multicolumn{1}{c}{\textbf{Label}}\\
+    \cmidrule(lr){2-4} \cmidrule(lr){5-7} \cmidrule(l){8-8}
+    & \multicolumn{1}{c}{$x$} & \multicolumn{1}{c}{$y$} & \multicolumn{1}{c}{$z$} & \multicolumn{1}{c}{Maks 1} & \multicolumn{1}{c}{Maks 2} & \multicolumn{1}{c}{Maks 3} & \multicolumn{1}{c}{Oktan}\\
+    \cmidrule(r){1-1}\cmidrule(lr){2-4}\cmidrule(lr){5-7}\cmidrule(l){8-8}
+    \textbf{1} & 1 & 2 & 1  & 2 & 1 & 1 & Oktan I\\
+    \textbf{2} & 2 & -3 & 4 & 4 & 2 & -3 & Oktan IV\\
+    \textbf{3} & 4 & 2 & -1 & 4 & 2 & -1 & Oktan V\\
+    \textbf{4} & 1 & -1 & 1 & 1 & 1 & -1 & Oktan IV\\
+    \textbf{5} & -2 & 3 & -3 & 3 & -2 & -3 & Oktan VI\\
+    \textbf{6} & 1 & 3 & 2  & 3 & 2 & 1 & Oktan I\\
+    \textbf{7} & -4 & 2 & -1 & 2 & -1 & -4 & Oktan VI\\
+    \textbf{8} & 1 & 3 & -4  & 3 & 1 & -4 & Oktan V\\
+    \bottomrule
+    \end{tabular}}
+\end{table}
+
+\noindent Selanjutnya, observasi-observasi pada data latih di dalam \ref{tab:ordering features} ini fitur-fiturnya diurutkan secara menurun berdasarkan urutan sebagai berikut: ``Maks 1'', ``Maks 2'', dan ``Maks 3''. Hasil proses pengurutan untuk contoh data latih pada \ref{tab:contoh data latih} diberikan pada \ref{tab:pengurutan data latih}.
+
+\begin{table}[ht!]
+    \centering 
+    \caption{Contoh data latih yang telah diurutkan}
+    \label{tab:pengurutan data latih}
+    \scalebox{.65}{
+    \begin{tabular}{ccrrrl}
+    \toprule
+    \multirow{2}{*}{\textbf{No. urut}} & \multirow{2}{*}{\textbf{Indeks}} & \multicolumn{3}{c}{\textbf{Fitur}} & \multicolumn{1}{c}{\textbf{Label}}\\
+    \cmidrule(lr){3-5} \cmidrule(l){6-6}
+    & & \multicolumn{1}{c}{$x$} & \multicolumn{1}{c}{$y$} & \multicolumn{1}{c}{$z$} & \multicolumn{1}{c}{Oktan}\\
+    \cmidrule(r){1-1}\cmidrule(lr){2-2}\cmidrule(lr){3-5}\cmidrule(l){6-6}
+    \textbf{1} &\textbf{3} & 4 & 2 & -1 & Oktan V\\
+    \textbf{2} &\textbf{2} & 2 & -3 & 4 & Oktan IV\\
+    \textbf{3} &\textbf{6} & 1 & 3 & 2 & Oktan I\\
+    \textbf{4} &\textbf{8} & 1 & 3 & -4 & Oktan V\\
+    \textbf{5} &\textbf{5} & -2 & 3 & -3 & Oktan VI\\
+    \textbf{6} &\textbf{1} & 1 & 2 & 1 & Oktan I\\
+    \textbf{7} &\textbf{7} & -4 & 2 & -1 & Oktan VI\\
+    \textbf{8} &\textbf{4} & 1 & -1 & 1 & Oktan IV\\
+    \bottomrule
+    \end{tabular}
+    }
+\end{table}
+
+\noindent Urutan observasi dari data latih pada \ref{tab:pengurutan data latih} ini akan digunakan untuk membangun model JSF yang dimulai dari fase identifikasi struktur.
+\end{contoh}
+
+\section{Skema Klasifikasi Multikelas} \label{skema klasifikasi}
+\noindent Sebagaimana telah disebutkan sebelumnya bahwa label pada data yang termasuk masalah klasifikasi multikelas berupa kategori. Supaya dapat digunakan untuk membangun model JSF, label yang berbentuk kategori ini harus dikonversi menjadi bilangan real. Pada klasifikasi biner, label cukup dikonversi menjadi bilangan 0 untuk suatu kategori dan bilangan 1 untuk kategori yang lain. Klasifikasi multikelas juga akan mengonversi label menjadi sejumlah digit biner 0 dan 1. Strategi pengonversian label ini disebut dengan pengkodean label. 
+
+\noindent Pengkodean label dapat dilakukan dengan berbagai metode. Setiap metode akan mengakibatkan skema klasifikasi yang berbeda-beda dari metode lainnya. Oleh karena itu, pengkodean label ini merupakan tahap yang paling dasar dari skema klasifikasi multikelas. Setiap skema klasifikasi multikelas memiliki metode yang berbeda-beda dalam proses pembangunan model JSF. Selain itu, proses prediksi label pada data uji dan data validasi juga berbeda untuk setiap skema klasifikasinya. Pada tugas akhir ini, akan digunakan tiga skema klasifikasi multikelas yang dijelaskan oleh \citeasnoun{ou}, yaitu skema satu lawan semua, skema satu lawan satu, dan skema satu lawan orde yang lebih tinggi.
+
+\noindent Masalah klasifikasi multikelas dengan banyaknya $p$ kelas yang berbeda dideskripsikan secara formal sebagai berikut. Misalkan diberikan data berukuran $L\times(n+1)$, yaitu data yang terdiri dari $L$ observasi dan setiap observasinya memiliki $n$ fitur. Selanjutnya, diberikan \emph{learning set} yang merupakan sub himpunan dari data asal. Setiap observasi $\mathbf{x}^{(l)}$ di dalam \emph{learning set} berasosiasi dengan suatu label kelas $\mathcal{C}$, $\mathcal{C} \in \mathfrak{C} = \{\mathcal{C}_1, \mathcal{C}_2, \ldots, \mathcal{C}_p\}$ dengan $\mathcal{C}_h \neq \mathcal{C}_k$ untuk setiap $h\neq k$ dan $p>2$. Misalkan $F$ adalah fungsi yang ada di dalam himpunan hipotesis. Maka $F$ memetakan $\mathbf{x}^{(l)}$ terhadap himpunan $\mathfrak{C}$, atau $F (\mathbf{x}^{(l)}) \in \mathfrak{C}$.
+
+\noindent Pada skema satu lawan semua, setiap kelas $\mathcal{C}_k$ ditandingkan melawan kelas-kelas yang lain. Model JSF yang dibangun menggunakan skema ini hanya berupa model JSF tunggal dan terdiri dari $p$ neuron pada lapisan keluaran. Pada skema satu lawan satu, setiap kelas $\mathcal{C}_k$ ditandingkan dengan kelas $\mathcal{C}_h$, $k\neq h$. Dengan kata lain, skema satu lawan satu menandingkan setiap kelasnya satu per satu. Model JSF yang dibangun dengan skema ini berupa model JSF berganda dengan jumlah jaringan yang terbentuk adalah sebanyak $\binom{p}{2} = \frac{p(p-1)} {2}$. Pada skema satu lawan orde yang lebih tinggi, menandingkan setiap kelas dengan kelas-kelas lain yang kardinalitasnya lebih besar. Skema ini akan menghasilkan model JSF berganda yang terdiri dari $p-1$ jaringan.
+
+\subsection{Skema Satu Lawan Semua}
+\noindent Sebagaimana telah disebutkan sebelumnya, skema satu lawan semua atau \emph{one against all} (\gls{oaa})  menandingkan setiap kelas melawan semua kelas yang lain. Maka pengkodean label pada skema OAA adalah sebagai berikut. Setiap label kelas $\mathcal{C}_k$ dikonversi menjadi vektor $\mathbf{d} = (d_1,d_2,\ldots,d_p)$ dengan
+\begin{align*}
+d_j =
+\begin{dcases}
+1, &\text{jika } j=k\\
+0, &j \text{ lainnya}
+\end{dcases}
+\end{align*}
+Dengan demikian, pengkodean label ini sama dengan pengkodean fitur dengan metode \emph{one hot encoding}.
+
+\noindent Model yang dihasilkan menggunakan skema OAA berupa model JSF tunggal dengan $p$ neuron pada lapisan keluarannya, seperti yang telah digambarkan pada \ref{fig:jsf}. \emph{Feedforward} pada JSF akan menghasilkan sebanyak $p$ neuron keluaran, yaitu $\mathbf{t} = (t_1, t_2, \ldots, t_p)$. Dengan kata lain, model JSF ini tidak langsung menghasilkan suatu label kelas. Ketika data validasi dan data uji dimasukkan ke dalam model JSF, maka keluarannya harus berupa label kelas untuk keperluan prediksi, bukan vektor $\mathbf{t}$. Dengan demikian, diperlukan suatu fungsi keputusan $v$ yang memetakan  $\mathbf{t}$ menjadi suatu label kelas. Untuk skema OAA, fungsi keputusan $v$ memetakan vektor $\mathbf{t}$ terhadap label kelas yang indeksnya memiliki entri terbesar pada vektor $\mathbf{t}$. Jadi, fungsi keputusan $v$ untuk skema OAA adalah
+\begin{equation}
+\label{OAA decision function}
+\begin{aligned}
+    v(\mathbf{t}) &= \mathcal{C}_k, \text{ dengan}\\
+    k &= \arg \underset{h=1,2,\ldots,p}{\maks} (t_h)
+\end{aligned}    
+\end{equation}
+
+\subsection{Skema Satu Lawan Satu}
+\noindent Skema satu lawan satu atau \emph{one against one} (\gls{oao})  menandingkan setiap kelas melawan satu kelas yang lain. Model JSF yang terbentuk adalah model JSF berganda yang terdiri dari $N$ jaringan, $N=\frac{p(p-1)}{2}$. Setiap jaringan hanya mempunyai satu neuron pada lapisan keluaran. Misalkan kelas $\mathcal{C}_h$ ditandingkan melawan kelas $\mathcal{C}_k$, $1\leq h<k \leq p$. Maka akan terbentuk satu JSF dari total $N$ jaringan pada model JSF, sebut saja JSF $\{h,k\}$. Observasi-observasi dari \emph{learning set} yang digunakan untuk membentuk JSF  $\{h,k\}$ hanyalah observasi yang memiliki label kelas $\mathcal{C}_h$ atau $\mathcal{C}_k$. Misalkan nilai neuron yang diinginkan pada lapisan keluaran dari JSF $\{h,k\}$ dinyatakan dengan $d_{h,k}$. Maka $d_{h,k}=1$ untuk observasi yang memiliki label $\mathcal{C}_k$ dan $d_{h,k}=0$ untuk observasi yang memiliki label $\mathcal{C}_h$.
+
+\noindent Misalkan suatu model JSF dengan skema OAO telah diperoleh. Ketika data uji atau data validasi dimasukkan ke dalam model tersebut, maka setiap observasinya akan menghasilkan $N$ nilai keluaran. Misalkan keluaran dari JSF $\{h,k\}$ dinyatakan dengan $t_{h,k}$ untuk setiap $h=1,2,\ldots,p-1$ dan $k=h+1,h+2,\ldots,p$. Fungsi keputusan $v$ memetakan vektor $\mathbf{t} = (t_{1,2},t_{1,3},\ldots,t_{p-1,p})$ terhadap label kelas yang indeksnya mempunyai suara terbanyak pada neuron keluaran dari setiap JSF. Maka fungsi keputusan $v$ pada skema OAO untuk menentukan label kelas berdasarkan $N$ nilai keluaran ini adalah
+\begin{equation} \label{OAO decision function}
+    \begin{aligned}
+    v\left(\mathbf{t}\right) & = \mathcal{C}_k, \text{ dengan}\\
+    k &= \arg \underset{h=1,2,\ldots,p}{\maks} \left\{ \left( \sum_{q=1}^{h-1} \gls{round} (t_{q,h}) + \sum_{q=h+1}^p \left[1 - \round(t_{h,q}) \right] \right) \right\}
+    \end{aligned}
+\end{equation}
+
+\subsection{Skema Satu Lawan Orde yang Lebih Tinggi}
+\noindent Skema satu lawan orde yang lebih tinggi atau \emph{one against higher order} (\gls{oaho}) menandingkan setiap kelas dengan kelas-kelas lain yang kardinalitasnya lebih besar. Oleh karena itu, sebelum memberi indeks terhadap setiap kelas, harus dilakukan penghitungan jumlah observasi untuk masing-masing kelas dalam \emph{learning set}. Jumlah observasi untuk kelas $\mathcal{C}_k$ disebut dengan kardinalitas kelas $\mathcal{C}_k$ yang dinyatakan dengan $|\mathcal{C}_k|$. Setelah menghitung $|\mathcal{C}_k|$ untuk setiap $k=1,2,\ldots,p$, lakukan pengurutan dari yang terkecil. Dengan demikian, diperoleh $\mathfrak{C}=\{\mathcal{C}_1, \mathcal{C}_2, \ldots, \mathcal{C}_p\}$ dengan $|\mathcal{C}_1| \leq |\mathcal{C}_2| \leq \ldots \leq |\mathcal{C}_p|$. Selanjutnya, dilakukan pengkodean untuk setiap label kelas.
+
+\noindent Pengkodean untuk setiap label kelas mengikuti mekanisme berikut ini. Pertandingkan kelas $\mathcal{C}_1$ melawan $\mathfrak{C}^+_1 = \{\mathcal{C}_2, \mathcal{C}_3, \ldots, \mathcal{C}_p \}$. Akibatnya, terbentuk JSF $\{\mathcal{C}_1,\mathfrak{C}^+_1\}$ dengan \emph{learning set} yang dinyatakan sebagai $\mathfrak{C}_1$ dan terdiri dari semua observasi pada \emph{learning set} asal. Misalkan nilai neuron yang diinginkan pada lapisan keluaran dari JSF $\{\mathcal{C}_1,\mathfrak{C}^+_1\}$ dinyatakan dengan $d_{1,1^+}$. Maka $d_{1,1^+} = 1$ untuk observasi pada $\mathfrak{C}_1$ yang label kelasnya berupa $\mathcal{C}_1$ dan  $d_{1,1^+} = 0$ untuk observasi pada $\mathfrak{C}^+_1 \subset \mathfrak{C}_1$. Selanjutnya, untuk setiap $k=2,3,\ldots,p-1$ pertandingkan kelas $\mathcal{C}_k$ melawan $\mathfrak{C}^+_k = \{\mathcal{C}_{k+1}, \mathcal{C}_{k+2}, \ldots, \mathcal{C}_p \}$. Akibatnya, terbentuk JSF $\{\mathcal{C}_k,\mathfrak{C}^+_k\}$ dengan \emph{learning set} yang dinyatakan sebagai $\mathfrak{C}_k$ dan terdiri dari observasi-observasi pada \emph{learning set} asal yang label kelasnya adalah $\mathcal{C}_k, \mathcal{C}_{k+1}, \ldots, \mathcal{C}_p$. Misalkan nilai neuron yang diinginkan pada lapisan keluaran dari JSF $\{\mathcal{C}_k,\mathfrak{C}^+_k\}$ dinyatakan dengan $d_{k,k^+}$. Maka $d_{k,k^+} = 1$ untuk observasi pada $\mathfrak{C}_k$ yang label kelasnya berupa $\mathcal{C}_k$ dan  $d_{k,k^+} = 0$ untuk observasi pada $\mathfrak{C}^+_k \subset \mathfrak{C}_k$. Dengan demikian, terbentuk JSF berganda yang terdiri dari $p-1$ jaringan.
+
+\noindent Misalkan telah diperoleh suatu model JSF dengan skema OAHO. Ketika data uji dan data validasi dimasukkan ke dalam model tersebut, maka setiap observasinya akan menghasilkan sebanyak $p-1$ nilai keluaran. Misalkan keluaran dari JSF $\{\mathcal{C}_k,\mathfrak{C}^+_k\}$ untuk setiap $k=1,2,\ldots,p-1$ dinyatakan dengan $t_k$. Untuk setiap observasi $\mathbf{x}^{(l)}$ pada data uji atau data validasi, vektor $\mathbf{t} = (t_1,t_2,\ldots,t_{p-1})$ dikonversi menjadi label kelas dengan langkah-langkah sesuai Algoritma \ref{konvOAHO}.
+
+\begin{algoritma}[caption={Konversi vektor $\mathbf{t}$ menjadi label kelas dalam skema OAHO}, label={konvOAHO}]
+ input: $p$ //banyaknya kelas label yang berbeda
+        $\mathbf{t}$ //keluaran dari model JSF, berdimensi p-1
+ output: $\mathcal{C}_k$
+ mulai
+   $k=1$
+   selagi $k<p$
+     jika $\round(t_k)=1$
+        menghasilkan $\mathcal{C}_k$
+        berhenti
+     kalau_tidak
+        $k = k+1$
+   berakhir
+   menghasilkan $\mathcal{C}_p$
+ berakhir       
+\end{algoritma}
+
+\section{Skema Pemilihan Model} \label{pemilihan model} 
+\noindent Model ML yang akan dibangun pada tugas akhir ini hanya model JSF. Meskipun hanya satu jenis model ML yang akan dibangun, banyaknya fungsi pada himpunan hipotesis yang diperoleh bisa lebih dari satu. Fungsi-fungsi tersebut dikarakterisasi oleh sejumlah parameter. Parameter yang dihasilkan ini akan sangat bergantung kepada penentuan nilai-nilai dari hiperparameter. Oleh karena itu, untuk mendapatkan model JSF yang optimal dibutuhkan alur dan strategi dalam penentuan nilai-nilai dari hiperparameter. Selanjutnya, alur dan strategi yang dibutuhkan ini akan disebut dengan skema pemilihan model.
+
+\noindent Dalam skema pemilihan model, \citeasnoun{mohri} mengusulkan untuk menggunakan validasi silang $K$-\emph{fold} terhadap data latih. Misalkan diberikan data latih $\mathfrak{T}$ yang terdiri dari $L$ observasi. Setiap observasi terdiri dari $n$ fitur dan satu label kelas. Misalkan banyaknya label kelas yang berbeda pada data latih $\mathfrak{T}$ ada sebanyak $p$. Selanjutnya, data latih $\mathfrak{T}$ dipartisi ke dalam $K$ sub data latih, yaitu $\mathfrak{T}_1, \mathfrak{T}_2, \ldots, \mathfrak{T}_K$. Proses partisi ini menggunakan metode bertingkat (\emph{stratified}). Dengan kata lain, proporsi label kelas $\mathcal{C}_k$ untuk setiap $k=1,2,\ldots,p$ di dalam data latih $\mathfrak{T}$ hampir sama dengan proporsi $\mathcal{C}_k$ di dalam sub data latih  $\mathfrak{T}_\iota$ untuk setiap $\iota = 1,2,\ldots,K$. Selain itu, kardinalitas antar sub data latih harus saling berdekatan.
+
+\noindent Misalkan $\pmb{\theta} = (\rho,\tau,s_0,\eta)$ menyatakan vektor hiperparameter untuk model JSF. Pilih nilai untuk setiap entri dari vektor $\pmb{\theta}$. Kemudian lakukan perulangan sebanyak $K$ kali. Untuk setiap perulangan ke-$\iota$, tetapkan sub data latih $\mathfrak{T}_\iota$ sebagai data validasi, sedangkan sub data latih lainnya digabungkan dan dijadikan \emph{learning set}. Untuk setiap perulangan, hitung akurasi model JSF yang telah diterapkan ke dalam data validasi. Misalkan $a_\iota$ menyatakan akurasi model JSF yang diperoleh pada perulangan ke-$\iota$, $|\mathfrak{T}_\iota|$ menyatakan banyaknya observasi di dalam data validasi pada perulagan ke-$\iota$, $\mathcal{C}^{(l)}$ dan $\hat{\mathcal{C}}^{(l)}$ berturut-turut menyatakan label yang sebenarnya dan label hasil model JSF untuk observasi ke-$l$ pada data validasi. Maka $a_\iota$ adalah
+\begin{align} \label{akurasi}
+    a_\iota &= \displaystyle\frac{1}{|\mathfrak{T}_\iota|} \displaystyle \sum_{l=1} ^ {|\mathfrak{T}_\iota|}1_{\mathcal{C}^{(l)}=\hat{\mathcal{C}}^{(l)}}\\
+    \intertext{dengan}
+    1_{\mathcal{C}^{(l)}=\hat{\mathcal{C}}^{(l)}} &=
+    \begin{dcases}
+    1, & \text{jika } \mathcal{C}^{(l)}=\hat{\mathcal{C}}^{(l)}\\
+    0, & \text{lainnya}
+    \end{dcases}\nonumber
+\end{align}
+Setelah semua sub data latih digunakan sebagai data validasi, hitung rata-rata dan simpangan baku dari akurasi model JSF. Misalkan $\Bar{a}(\pmb{\theta})$ dan $s_a(\pmb{\theta})$ berturut-turut menyatakan rata-rata dan simpangan baku dari $a_\iota, \quad \iota=1,2,\ldots,K$ untuk suatu vektor hiperparameter $\pmb{\theta}$. Maka
+\begin{align}
+    \label{rataan akurasi}
+    \Bar{a}(\pmb{\theta}) &= \displaystyle\frac{1}{L} \displaystyle \sum_{\iota=1}^L a_\iota\\
+    \intertext{dan}
+    \label{sd akurasi}
+    s_a(\pmb{\theta}) &= \sqrt{ \displaystyle \frac{1}{L-1} \displaystyle \sum_{\iota=1}^L [a_\iota - \Bar{a}(\pmb{\theta})]^2 }
+\end{align}
+Dengan demikian, model JSF dengan vektor hiperparamter $\pmb{\theta}$ dapat dikatakan memiliki akurasi sebesar $\Bar{a}(\pmb{\theta})\pm s_a(\pmb{\theta})$.
+
+\noindent Selanjutnya, pilih nilai yang lain untuk entri dari vektor hiperparameter $\pmb{\theta}$. Lakukan kembali langkah di atas. Pemilihan nilai untuk entri dari vektor hiperparameter $\pmb{\theta}$ dapat dilakukan berkali-kali sedemikian sehingga mendapatkan akurasi model JSF ($\Bar{a}(\pmb{\theta})\pm s_a(\pmb{\theta})$) yang dianggap paling optimal.
+
+\noindent Misalkan diperoleh vektor hiperparameter $\pmb{\theta}_0$ dengan akurasi model JSF dianggap paling optimal. Maka hiperparameter $\pmb{\theta}_0$ adalah hiperparameter yang akan dipilih untuk membangun model JSF berdasarkan data latih keseluruhan. Selanjutnya, model JSF yang diperoleh ini diterapkan terhadap data uji untuk mendapatkan nilai akurasi model JSF berdasarkan data uji.
